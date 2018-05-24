@@ -1,0 +1,933 @@
+Loading model: done
+arma	arma	VERB	Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act
+
+form: arma	lemma: arma	Could not determine infinitive
+ERROR: Could not determine conjugation	form: arma	lemma: arma	inf: ERROR
+PROBLEM: No macronizations for 'arma' (lemma: 'arma'; inflection: '-1') as LatMor form 'ERROR<V><pres><imp><active><sg><2>'
+GETTING: reading transducer... armare<V><pres><imp><active><sg><2>
+GETTING: finished. armare<V><pres><imp><active><sg><2>
+GETTING: armā armare<V><pres><imp><active><sg><2>
+PAIR: armā armare<V><pres><imp><active><sg><2>
+GETTING: reading transducer... arma<N><neut><pl><nom>
+GETTING: finished. arma<N><neut><pl><nom>
+GETTING: armā arma<N><neut><pl><nom>
+PAIR: armā arma<N><neut><pl><nom>
+GETTING: reading transducer... arma<N><neut><pl><acc>
+GETTING: finished. arma<N><neut><pl><acc>
+GETTING: armā arma<N><neut><pl><acc>
+PAIR: armā arma<N><neut><pl><acc>
+GETTING: reading transducer... arma<N><neut><pl><voc>
+GETTING: finished. arma<N><neut><pl><voc>
+GETTING: armā arma<N><neut><pl><voc>
+PAIR: armā arma<N><neut><pl><voc>
+DEFAULT MACRONIZATIONS of form arma:
+PAIR_PAIR armā --> armare<V><pres><imp><active><sg><2>
+PAIR_PAIR armā --> arma<N><neut><pl><nom>
+PAIR_PAIR armā --> arma<N><neut><pl><acc>
+PAIR_PAIR armā --> arma<N><neut><pl><voc>
+
+ERROR: Does not have valid conjugation	form: arma	lemma: arma	conjugation: -1
+. Returning default macronization 'armā' for LatMor form 'armare<V><pres><imp><active><sg><2>'.
+virumque	virumque	ADV	_
+
+PROBLEM: No macronizations for 'virumque' (lemma: 'virumque'; inflection: 'None') as LatMor form 'virumque<ADV>'
+GETTING: reading transducer... vir<N><masc><sg><acc> que<PART>
+GETTING: finished. vir<N><masc><sg><acc> que<PART>
+GETTING: virumque vir<N><masc><sg><acc> que<PART>
+PAIR: virumque vir<N><masc><sg><acc> que<PART>
+DEFAULT MACRONIZATIONS of form virumque:
+PAIR_PAIR virumque --> vir<N><masc><sg><acc> que<PART>
+
+PROBLEM: No macronizations for 'virumque' (lemma: 'virumque'; inflection: 'None') as LatMor form 'virumque<ADV>'. Returning default macronization 'virumque' for LatMor form 'vir<N><masc><sg><acc> que<PART>'.
+cano	canus	ADJ	Case=Dat|Degree=Pos|Gender=Masc|Number=Sing
+
+,	,	PUNCT	_
+
+troiae	Troia	PROPN	Case=Gen|Gender=Masc|Number=Sing
+
+GETTING: reading transducer... no result for troiae
+GETTING: finished. no result for troiae
+GETTING: no result for no result for troiae no result for troiae
+DEFAULT MACRONIZATIONS of form troiae:
+
+GETTING: reading transducer... Troia<PN><fem><sg><gen>
+GETTING: finished. Troia<PN><fem><sg><gen>
+GETTING: Trōiae Troia<PN><fem><sg><gen>
+PAIR: Trōiae Troia<PN><fem><sg><gen>
+GETTING: reading transducer... Troia<PN><fem><sg><dat>
+GETTING: finished. Troia<PN><fem><sg><dat>
+GETTING: Trōiae Troia<PN><fem><sg><dat>
+PAIR: Trōiae Troia<PN><fem><sg><dat>
+GETTING: reading transducer... Troia<PN><fem><pl><nom>
+GETTING: finished. Troia<PN><fem><pl><nom>
+GETTING: Trōiae Troia<PN><fem><pl><nom>
+PAIR: Trōiae Troia<PN><fem><pl><nom>
+GETTING: reading transducer... Troia<PN><fem><pl><voc>
+GETTING: finished. Troia<PN><fem><pl><voc>
+GETTING: Trōiae Troia<PN><fem><pl><voc>
+PAIR: Trōiae Troia<PN><fem><pl><voc>
+GETTING: reading transducer... Troius<ADJ><positive><fem><sg><gen>
+GETTING: finished. Troius<ADJ><positive><fem><sg><gen>
+GETTING: Trōiae Troius<ADJ><positive><fem><sg><gen>
+PAIR: Trōiae Troius<ADJ><positive><fem><sg><gen>
+GETTING: reading transducer... Troius<ADJ><positive><fem><sg><dat>
+GETTING: finished. Troius<ADJ><positive><fem><sg><dat>
+GETTING: Trōiae Troius<ADJ><positive><fem><sg><dat>
+PAIR: Trōiae Troius<ADJ><positive><fem><sg><dat>
+GETTING: reading transducer... Troius<ADJ><positive><fem><pl><nom>
+GETTING: finished. Troius<ADJ><positive><fem><pl><nom>
+GETTING: Trōiae Troius<ADJ><positive><fem><pl><nom>
+PAIR: Trōiae Troius<ADJ><positive><fem><pl><nom>
+GETTING: reading transducer... Troius<ADJ><positive><fem><pl><voc>
+GETTING: finished. Troius<ADJ><positive><fem><pl><voc>
+GETTING: Trōiae Troius<ADJ><positive><fem><pl><voc>
+PAIR: Trōiae Troius<ADJ><positive><fem><pl><voc>
+DEFAULT MACRONIZATIONS of form Troiae:
+PAIR_PAIR Trōiae --> Troia<PN><fem><sg><gen>
+PAIR_PAIR Trōiae --> Troia<PN><fem><sg><dat>
+PAIR_PAIR Trōiae --> Troia<PN><fem><pl><nom>
+PAIR_PAIR Trōiae --> Troia<PN><fem><pl><voc>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><sg><gen>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><sg><dat>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><pl><nom>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><pl><voc>
+
+PROBLEM: No macronizations for 'troiae' (lemma: 'Troia'; inflection: 'None') as LatMor form 'Troia<PN><fem><sg><gen>'
+GETTING: reading transducer... no result for troiae
+GETTING: finished. no result for troiae
+GETTING: no result for no result for troiae no result for troiae
+DEFAULT MACRONIZATIONS of form troiae:
+
+GETTING: reading transducer... Troia<PN><fem><sg><gen>
+GETTING: finished. Troia<PN><fem><sg><gen>
+GETTING: Trōiae Troia<PN><fem><sg><gen>
+PAIR: Trōiae Troia<PN><fem><sg><gen>
+GETTING: reading transducer... Troia<PN><fem><sg><dat>
+GETTING: finished. Troia<PN><fem><sg><dat>
+GETTING: Trōiae Troia<PN><fem><sg><dat>
+PAIR: Trōiae Troia<PN><fem><sg><dat>
+GETTING: reading transducer... Troia<PN><fem><pl><nom>
+GETTING: finished. Troia<PN><fem><pl><nom>
+GETTING: Trōiae Troia<PN><fem><pl><nom>
+PAIR: Trōiae Troia<PN><fem><pl><nom>
+GETTING: reading transducer... Troia<PN><fem><pl><voc>
+GETTING: finished. Troia<PN><fem><pl><voc>
+GETTING: Trōiae Troia<PN><fem><pl><voc>
+PAIR: Trōiae Troia<PN><fem><pl><voc>
+GETTING: reading transducer... Troius<ADJ><positive><fem><sg><gen>
+GETTING: finished. Troius<ADJ><positive><fem><sg><gen>
+GETTING: Trōiae Troius<ADJ><positive><fem><sg><gen>
+PAIR: Trōiae Troius<ADJ><positive><fem><sg><gen>
+GETTING: reading transducer... Troius<ADJ><positive><fem><sg><dat>
+GETTING: finished. Troius<ADJ><positive><fem><sg><dat>
+GETTING: Trōiae Troius<ADJ><positive><fem><sg><dat>
+PAIR: Trōiae Troius<ADJ><positive><fem><sg><dat>
+GETTING: reading transducer... Troius<ADJ><positive><fem><pl><nom>
+GETTING: finished. Troius<ADJ><positive><fem><pl><nom>
+GETTING: Trōiae Troius<ADJ><positive><fem><pl><nom>
+PAIR: Trōiae Troius<ADJ><positive><fem><pl><nom>
+GETTING: reading transducer... Troius<ADJ><positive><fem><pl><voc>
+GETTING: finished. Troius<ADJ><positive><fem><pl><voc>
+GETTING: Trōiae Troius<ADJ><positive><fem><pl><voc>
+PAIR: Trōiae Troius<ADJ><positive><fem><pl><voc>
+DEFAULT MACRONIZATIONS of form Troiae:
+PAIR_PAIR Trōiae --> Troia<PN><fem><sg><gen>
+PAIR_PAIR Trōiae --> Troia<PN><fem><sg><dat>
+PAIR_PAIR Trōiae --> Troia<PN><fem><pl><nom>
+PAIR_PAIR Trōiae --> Troia<PN><fem><pl><voc>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><sg><gen>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><sg><dat>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><pl><nom>
+PAIR_PAIR Trōiae --> Troius<ADJ><positive><fem><pl><voc>
+
+PROBLEM: No macronizations for 'troiae' (lemma: 'Troia'; inflection: 'None') as LatMor form 'Troia<PN><fem><sg><gen>'. Returning default macronization 'Trōiae' for LatMor form 'Troia<PN><fem><sg><gen>'.
+qui	qui	PRON	Case=Nom|Gender=Masc|Number=Sing|PronType=Rel
+
+GETTING: reading transducer... quire<V><pres><imp><active><sg><2>
+GETTING: finished. quire<V><pres><imp><active><sg><2>
+GETTING: quī quire<V><pres><imp><active><sg><2>
+PAIR: quī quire<V><pres><imp><active><sg><2>
+GETTING: reading transducer... quis<PRO><quest><masc><sg><nom>
+GETTING: finished. quis<PRO><quest><masc><sg><nom>
+GETTING: quī quis<PRO><quest><masc><sg><nom>
+PAIR: quī quis<PRO><quest><masc><sg><nom>
+GETTING: reading transducer... quis<PRO><quest><masc><pl><nom>
+GETTING: finished. quis<PRO><quest><masc><pl><nom>
+GETTING: quī quis<PRO><quest><masc><pl><nom>
+PAIR: quī quis<PRO><quest><masc><pl><nom>
+GETTING: reading transducer... quis<PRO><indef><masc><pl><nom>
+GETTING: finished. quis<PRO><indef><masc><pl><nom>
+GETTING: quī quis<PRO><indef><masc><pl><nom>
+PAIR: quī quis<PRO><indef><masc><pl><nom>
+GETTING: reading transducer... qui<ADV>
+GETTING: finished. qui<ADV>
+GETTING: quī qui<ADV>
+PAIR: quī qui<ADV>
+GETTING: reading transducer... qui<PRO><rel><masc><sg><nom>
+GETTING: finished. qui<PRO><rel><masc><sg><nom>
+GETTING: quī qui<PRO><rel><masc><sg><nom>
+PAIR: quī qui<PRO><rel><masc><sg><nom>
+GETTING: reading transducer... qui<PRO><rel><masc><pl><nom>
+GETTING: finished. qui<PRO><rel><masc><pl><nom>
+GETTING: quī qui<PRO><rel><masc><pl><nom>
+PAIR: quī qui<PRO><rel><masc><pl><nom>
+GETTING: reading transducer... qui<PRO><indef><masc><sg><nom>
+GETTING: finished. qui<PRO><indef><masc><sg><nom>
+GETTING: quī qui<PRO><indef><masc><sg><nom>
+PAIR: quī qui<PRO><indef><masc><sg><nom>
+GETTING: reading transducer... qui<PRO><indef><masc><pl><nom>
+GETTING: finished. qui<PRO><indef><masc><pl><nom>
+GETTING: quī qui<PRO><indef><masc><pl><nom>
+PAIR: quī qui<PRO><indef><masc><pl><nom>
+DEFAULT MACRONIZATIONS of form qui:
+PAIR_PAIR quī --> quire<V><pres><imp><active><sg><2>
+PAIR_PAIR quī --> quis<PRO><quest><masc><sg><nom>
+PAIR_PAIR quī --> quis<PRO><quest><masc><pl><nom>
+PAIR_PAIR quī --> quis<PRO><indef><masc><pl><nom>
+PAIR_PAIR quī --> qui<ADV>
+PAIR_PAIR quī --> qui<PRO><rel><masc><sg><nom>
+PAIR_PAIR quī --> qui<PRO><rel><masc><pl><nom>
+PAIR_PAIR quī --> qui<PRO><indef><masc><sg><nom>
+PAIR_PAIR quī --> qui<PRO><indef><masc><pl><nom>
+
+This word 'qui' is a Word of type Indecl. Using default macronization 'quī' for LatMor form 'quire<V><pres><imp><active><sg><2>'.
+primus	primus	ADJ	Case=Nom|Gender=Masc|Number=Sing
+
+PROBLEM: No macronizations for 'primus' (lemma: 'primus'; inflection: '0') as LatMor form 'primus<ADJ><None><masc><sg><nom>'
+GETTING: reading transducer... prae<ADJ><superlative><masc><sg><nom>
+GETTING: finished. prae<ADJ><superlative><masc><sg><nom>
+GETTING: prīmus prae<ADJ><superlative><masc><sg><nom>
+PAIR: prīmus prae<ADJ><superlative><masc><sg><nom>
+GETTING: reading transducer... primus<ADJ><positive><masc><sg><nom>
+GETTING: finished. primus<ADJ><positive><masc><sg><nom>
+GETTING: prīmus primus<ADJ><positive><masc><sg><nom>
+PAIR: prīmus primus<ADJ><positive><masc><sg><nom>
+GETTING: reading transducer... primus<NUM><ord><masc><sg><nom>
+GETTING: finished. primus<NUM><ord><masc><sg><nom>
+GETTING: prīmus primus<NUM><ord><masc><sg><nom>
+PAIR: prīmus primus<NUM><ord><masc><sg><nom>
+DEFAULT MACRONIZATIONS of form primus:
+PAIR_PAIR prīmus --> prae<ADJ><superlative><masc><sg><nom>
+PAIR_PAIR prīmus --> primus<ADJ><positive><masc><sg><nom>
+PAIR_PAIR prīmus --> primus<NUM><ord><masc><sg><nom>
+
+PROBLEM: No macronizations for 'primus' (lemma: 'primus'; inflection: '0') as LatMor form 'primus<ADJ><None><masc><sg><nom>'. Returning default macronization 'prīmus' for LatMor form 'prae<ADJ><superlative><masc><sg><nom>'.
+ab	ab	ADP	_
+
+GETTING: reading transducer... ab<PREP>
+GETTING: finished. ab<PREP>
+GETTING: ab ab<PREP>
+PAIR: ab ab<PREP>
+DEFAULT MACRONIZATIONS of form ab:
+PAIR_PAIR ab --> ab<PREP>
+
+This word 'ab' is a Word of type Indecl. Using default macronization 'ab' for LatMor form 'ab<PREP>'.
+oris	ora	NOUN	Case=Gen|Gender=Neut|Number=Sing
+
+PROBLEM: No macronizations for 'oris' (lemma: 'ora'; inflection: '1') as LatMor form 'ora<N><neut><sg><gen>'
+GETTING: reading transducer... ora<N><fem><pl><dat>
+GETTING: finished. ora<N><fem><pl><dat>
+GETTING: ōrīs ora<N><fem><pl><dat>
+PAIR: ōrīs ora<N><fem><pl><dat>
+GETTING: reading transducer... ora<N><fem><pl><abl>
+GETTING: finished. ora<N><fem><pl><abl>
+GETTING: ōrīs ora<N><fem><pl><abl>
+PAIR: ōrīs ora<N><fem><pl><abl>
+GETTING: reading transducer... orum<N><neut><pl><dat>
+GETTING: finished. orum<N><neut><pl><dat>
+GETTING: ōrīs orum<N><neut><pl><dat>
+PAIR: ōrīs orum<N><neut><pl><dat>
+GETTING: reading transducer... orum<N><neut><pl><abl>
+GETTING: finished. orum<N><neut><pl><abl>
+GETTING: ōrīs orum<N><neut><pl><abl>
+PAIR: ōrīs orum<N><neut><pl><abl>
+GETTING: reading transducer... os<N><neut><sg><gen>
+GETTING: finished. os<N><neut><sg><gen>
+GETTING: ōrīs os<N><neut><sg><gen>
+PAIR: ōrīs os<N><neut><sg><gen>
+DEFAULT MACRONIZATIONS of form oris:
+PAIR_PAIR ōrīs --> ora<N><fem><pl><dat>
+PAIR_PAIR ōrīs --> ora<N><fem><pl><abl>
+PAIR_PAIR ōrīs --> orum<N><neut><pl><dat>
+PAIR_PAIR ōrīs --> orum<N><neut><pl><abl>
+PAIR_PAIR ōrīs --> os<N><neut><sg><gen>
+
+PROBLEM: No macronizations for 'oris' (lemma: 'ora'; inflection: '1') as LatMor form 'ora<N><neut><sg><gen>'. Returning default macronization 'ōrīs' for LatMor form 'ora<N><fem><pl><dat>'.
+italiam	Italia	PROPN	Case=Acc|Gender=Fem|Number=Sing
+
+GETTING: reading transducer... no result for italiam
+GETTING: finished. no result for italiam
+GETTING: no result for no result for italiam no result for italiam
+DEFAULT MACRONIZATIONS of form italiam:
+
+GETTING: reading transducer... Italia<PN><fem><sg><acc>
+GETTING: finished. Italia<PN><fem><sg><acc>
+GETTING: Ītaliam Italia<PN><fem><sg><acc>
+PAIR: Ītaliam Italia<PN><fem><sg><acc>
+GETTING: reading transducer... Italius<ADJ><positive><fem><sg><acc>
+GETTING: finished. Italius<ADJ><positive><fem><sg><acc>
+GETTING: Ītaliam Italius<ADJ><positive><fem><sg><acc>
+PAIR: Ītaliam Italius<ADJ><positive><fem><sg><acc>
+DEFAULT MACRONIZATIONS of form Italiam:
+PAIR_PAIR Ītaliam --> Italia<PN><fem><sg><acc>
+PAIR_PAIR Ītaliam --> Italius<ADJ><positive><fem><sg><acc>
+
+PROBLEM: No macronizations for 'italiam' (lemma: 'Italia'; inflection: 'None') as LatMor form 'Italia<PN><fem><sg><acc>'
+GETTING: reading transducer... no result for italiam
+GETTING: finished. no result for italiam
+GETTING: no result for no result for italiam no result for italiam
+DEFAULT MACRONIZATIONS of form italiam:
+
+GETTING: reading transducer... Italia<PN><fem><sg><acc>
+GETTING: finished. Italia<PN><fem><sg><acc>
+GETTING: Ītaliam Italia<PN><fem><sg><acc>
+PAIR: Ītaliam Italia<PN><fem><sg><acc>
+GETTING: reading transducer... Italius<ADJ><positive><fem><sg><acc>
+GETTING: finished. Italius<ADJ><positive><fem><sg><acc>
+GETTING: Ītaliam Italius<ADJ><positive><fem><sg><acc>
+PAIR: Ītaliam Italius<ADJ><positive><fem><sg><acc>
+DEFAULT MACRONIZATIONS of form Italiam:
+PAIR_PAIR Ītaliam --> Italia<PN><fem><sg><acc>
+PAIR_PAIR Ītaliam --> Italius<ADJ><positive><fem><sg><acc>
+
+PROBLEM: No macronizations for 'italiam' (lemma: 'Italia'; inflection: 'None') as LatMor form 'Italia<PN><fem><sg><acc>'. Returning default macronization 'Ītaliam' for LatMor form 'Italia<PN><fem><sg><acc>'.
+,	,	PUNCT	_
+
+fato	fo	VERB	Aspect=Perf|Case=Abl|Gender=Neut|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass
+
+Invalid lemma (cannot find infinitive): fo
+ERROR: S/b 1st or 3rd-io conjugation, but reads as neither	form: fato	lemma: fo	inf: ERROR
+PROBLEM: No macronizations for 'fato' (lemma: 'fo'; inflection: '-1') as LatMor form 'ERROR<V><part><perf><passive><neut><sg><abl>'
+GETTING: reading transducer... fari<V><part><perf><deponens><masc><sg><dat>
+GETTING: finished. fari<V><part><perf><deponens><masc><sg><dat>
+GETTING: fātō fari<V><part><perf><deponens><masc><sg><dat>
+PAIR: fātō fari<V><part><perf><deponens><masc><sg><dat>
+GETTING: reading transducer... fari<V><part><perf><deponens><masc><sg><abl>
+GETTING: finished. fari<V><part><perf><deponens><masc><sg><abl>
+GETTING: fātō fari<V><part><perf><deponens><masc><sg><abl>
+PAIR: fātō fari<V><part><perf><deponens><masc><sg><abl>
+GETTING: reading transducer... fari<V><part><perf><deponens><neut><sg><dat>
+GETTING: finished. fari<V><part><perf><deponens><neut><sg><dat>
+GETTING: fātō fari<V><part><perf><deponens><neut><sg><dat>
+PAIR: fātō fari<V><part><perf><deponens><neut><sg><dat>
+GETTING: reading transducer... fari<V><part><perf><deponens><neut><sg><abl>
+GETTING: finished. fari<V><part><perf><deponens><neut><sg><abl>
+GETTING: fātō fari<V><part><perf><deponens><neut><sg><abl>
+PAIR: fātō fari<V><part><perf><deponens><neut><sg><abl>
+GETTING: reading transducer... fatum<N><neut><sg><dat>
+GETTING: finished. fatum<N><neut><sg><dat>
+GETTING: fātō fatum<N><neut><sg><dat>
+PAIR: fātō fatum<N><neut><sg><dat>
+GETTING: reading transducer... fatum<N><neut><sg><abl>
+GETTING: finished. fatum<N><neut><sg><abl>
+GETTING: fātō fatum<N><neut><sg><abl>
+PAIR: fātō fatum<N><neut><sg><abl>
+DEFAULT MACRONIZATIONS of form fato:
+PAIR_PAIR fātō --> fari<V><part><perf><deponens><masc><sg><dat>
+PAIR_PAIR fātō --> fari<V><part><perf><deponens><masc><sg><abl>
+PAIR_PAIR fātō --> fari<V><part><perf><deponens><neut><sg><dat>
+PAIR_PAIR fātō --> fari<V><part><perf><deponens><neut><sg><abl>
+PAIR_PAIR fātō --> fatum<N><neut><sg><dat>
+PAIR_PAIR fātō --> fatum<N><neut><sg><abl>
+
+ERROR: Does not have valid conjugation	form: fato	lemma: fo	conjugation: -1
+. Returning default macronization 'fātō' for LatMor form 'fari<V><part><perf><deponens><masc><sg><dat>'.
+profugus	profugus	NOUN	Case=Acc|Gender=Neut|Number=Sing
+
+PROBLEM: No macronizations for 'profugus' (lemma: 'profugus'; inflection: '3') as LatMor form 'profugus<N><neut><sg><acc>'
+GETTING: reading transducer... profugus<ADJ><positive><masc><sg><nom>
+GETTING: finished. profugus<ADJ><positive><masc><sg><nom>
+GETTING: profugus profugus<ADJ><positive><masc><sg><nom>
+PAIR: profugus profugus<ADJ><positive><masc><sg><nom>
+DEFAULT MACRONIZATIONS of form profugus:
+PAIR_PAIR profugus --> profugus<ADJ><positive><masc><sg><nom>
+
+PROBLEM: No macronizations for 'profugus' (lemma: 'profugus'; inflection: '3') as LatMor form 'profugus<N><neut><sg><acc>'. Returning default macronization 'profugus' for LatMor form 'profugus<ADJ><positive><masc><sg><nom>'.
+,	,	PUNCT	_
+
+laviniaque	Laviniaque	NOUN	Case=Acc|Gender=Fem|Number=Sing
+
+PROBLEM: No macronizations for 'laviniaque' (lemma: 'Laviniaque'; inflection: '1') as LatMor form 'Laviniaque<N><fem><sg><acc>'
+GETTING: reading transducer... no result for laviniaque
+GETTING: finished. no result for laviniaque
+GETTING: no result for no result for laviniaque no result for laviniaque
+DEFAULT MACRONIZATIONS of form laviniaque:
+
+GETTING: reading transducer... Lavinium<PN><neut><pl><nom> que<PART>
+GETTING: finished. Lavinium<PN><neut><pl><nom> que<PART>
+GETTING: Lāvīniaque Lavinium<PN><neut><pl><nom> que<PART>
+PAIR: Lāvīniaque Lavinium<PN><neut><pl><nom> que<PART>
+GETTING: reading transducer... Lavinium<PN><neut><pl><acc> que<PART>
+GETTING: finished. Lavinium<PN><neut><pl><acc> que<PART>
+GETTING: Lāvīniaque Lavinium<PN><neut><pl><acc> que<PART>
+PAIR: Lāvīniaque Lavinium<PN><neut><pl><acc> que<PART>
+GETTING: reading transducer... Lavinium<PN><neut><pl><voc> que<PART>
+GETTING: finished. Lavinium<PN><neut><pl><voc> que<PART>
+GETTING: Lāvīniaque Lavinium<PN><neut><pl><voc> que<PART>
+PAIR: Lāvīniaque Lavinium<PN><neut><pl><voc> que<PART>
+GETTING: reading transducer... Lavinius<ADJ><positive><fem><sg><nom> que<PART>
+GETTING: finished. Lavinius<ADJ><positive><fem><sg><nom> que<PART>
+GETTING: Lāvīniaque Lavinius<ADJ><positive><fem><sg><nom> que<PART>
+PAIR: Lāvīniaque Lavinius<ADJ><positive><fem><sg><nom> que<PART>
+GETTING: reading transducer... Lavinius<ADJ><positive><fem><sg><abl> que<PART>
+GETTING: finished. Lavinius<ADJ><positive><fem><sg><abl> que<PART>
+GETTING: Lāvīniaque Lavinius<ADJ><positive><fem><sg><abl> que<PART>
+PAIR: Lāvīniaque Lavinius<ADJ><positive><fem><sg><abl> que<PART>
+GETTING: reading transducer... Lavinius<ADJ><positive><fem><sg><voc> que<PART>
+GETTING: finished. Lavinius<ADJ><positive><fem><sg><voc> que<PART>
+GETTING: Lāvīniaque Lavinius<ADJ><positive><fem><sg><voc> que<PART>
+PAIR: Lāvīniaque Lavinius<ADJ><positive><fem><sg><voc> que<PART>
+GETTING: reading transducer... Lavinius<ADJ><positive><neut><pl><nom> que<PART>
+GETTING: finished. Lavinius<ADJ><positive><neut><pl><nom> que<PART>
+GETTING: Lāvīniaque Lavinius<ADJ><positive><neut><pl><nom> que<PART>
+PAIR: Lāvīniaque Lavinius<ADJ><positive><neut><pl><nom> que<PART>
+GETTING: reading transducer... Lavinius<ADJ><positive><neut><pl><acc> que<PART>
+GETTING: finished. Lavinius<ADJ><positive><neut><pl><acc> que<PART>
+GETTING: Lāvīniaque Lavinius<ADJ><positive><neut><pl><acc> que<PART>
+PAIR: Lāvīniaque Lavinius<ADJ><positive><neut><pl><acc> que<PART>
+GETTING: reading transducer... Lavinius<ADJ><positive><neut><pl><voc> que<PART>
+GETTING: finished. Lavinius<ADJ><positive><neut><pl><voc> que<PART>
+GETTING: Lāvīniaque Lavinius<ADJ><positive><neut><pl><voc> que<PART>
+PAIR: Lāvīniaque Lavinius<ADJ><positive><neut><pl><voc> que<PART>
+DEFAULT MACRONIZATIONS of form Laviniaque:
+PAIR_PAIR Lāvīniaque --> Lavinium<PN><neut><pl><nom> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinium<PN><neut><pl><acc> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinium<PN><neut><pl><voc> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinius<ADJ><positive><fem><sg><nom> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinius<ADJ><positive><fem><sg><abl> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinius<ADJ><positive><fem><sg><voc> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinius<ADJ><positive><neut><pl><nom> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinius<ADJ><positive><neut><pl><acc> que<PART>
+PAIR_PAIR Lāvīniaque --> Lavinius<ADJ><positive><neut><pl><voc> que<PART>
+
+PROBLEM: No macronizations for 'laviniaque' (lemma: 'Laviniaque'; inflection: '1') as LatMor form 'Laviniaque<N><fem><sg><acc>'. Returning default macronization 'Lāvīniaque' for LatMor form 'Lavinium<PN><neut><pl><nom> que<PART>'.
+
+MACRONIZATION ERROR: form 'laviniaque', macronization 'Lāvīniaque', demacronization 'Laviniaque'
+
+venit	venio	VERB	Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act
+
+litora	litus	NOUN	Case=Nom|Gender=Fem|Number=Sing
+
+PROBLEM: No macronizations for 'litora' (lemma: 'litus'; inflection: '4') as LatMor form 'litus<N><fem><sg><nom>'
+GETTING: reading transducer... litus<N><neut><pl><nom>
+GETTING: finished. litus<N><neut><pl><nom>
+GETTING: lītora litus<N><neut><pl><nom>
+PAIR: lītora litus<N><neut><pl><nom>
+GETTING: reading transducer... litus<N><neut><pl><acc>
+GETTING: finished. litus<N><neut><pl><acc>
+GETTING: lītora litus<N><neut><pl><acc>
+PAIR: lītora litus<N><neut><pl><acc>
+GETTING: reading transducer... litus<N><neut><pl><voc>
+GETTING: finished. litus<N><neut><pl><voc>
+GETTING: lītora litus<N><neut><pl><voc>
+PAIR: lītora litus<N><neut><pl><voc>
+DEFAULT MACRONIZATIONS of form litora:
+PAIR_PAIR lītora --> litus<N><neut><pl><nom>
+PAIR_PAIR lītora --> litus<N><neut><pl><acc>
+PAIR_PAIR lītora --> litus<N><neut><pl><voc>
+
+PROBLEM: No macronizations for 'litora' (lemma: 'litus'; inflection: '4') as LatMor form 'litus<N><fem><sg><nom>'. Returning default macronization 'lītora' for LatMor form 'litus<N><neut><pl><nom>'.
+,	,	PUNCT	_
+
+multum	multus	ADV	Degree=Pos
+
+PROBLEM: No macronizations for 'multum' (lemma: 'multus'; inflection: 'None') as LatMor form 'multus<ADV><positive>'
+GETTING: reading transducer... multum<N><neut><sg><nom>
+GETTING: finished. multum<N><neut><sg><nom>
+GETTING: multum multum<N><neut><sg><nom>
+PAIR: multum multum<N><neut><sg><nom>
+GETTING: reading transducer... multum<N><neut><sg><acc>
+GETTING: finished. multum<N><neut><sg><acc>
+GETTING: multum multum<N><neut><sg><acc>
+PAIR: multum multum<N><neut><sg><acc>
+GETTING: reading transducer... multum<N><neut><sg><voc>
+GETTING: finished. multum<N><neut><sg><voc>
+GETTING: multum multum<N><neut><sg><voc>
+PAIR: multum multum<N><neut><sg><voc>
+GETTING: reading transducer... multum<ADV>
+GETTING: finished. multum<ADV>
+GETTING: multum multum<ADV>
+PAIR: multum multum<ADV>
+GETTING: reading transducer... multus<ADJ><positive><ADV>
+GETTING: finished. multus<ADJ><positive><ADV>
+GETTING: multum multus<ADJ><positive><ADV>
+PAIR: multum multus<ADJ><positive><ADV>
+GETTING: reading transducer... multus<ADJ><positive><masc><sg><acc>
+GETTING: finished. multus<ADJ><positive><masc><sg><acc>
+GETTING: multum multus<ADJ><positive><masc><sg><acc>
+PAIR: multum multus<ADJ><positive><masc><sg><acc>
+GETTING: reading transducer... multus<ADJ><positive><neut><sg><nom>
+GETTING: finished. multus<ADJ><positive><neut><sg><nom>
+GETTING: multum multus<ADJ><positive><neut><sg><nom>
+PAIR: multum multus<ADJ><positive><neut><sg><nom>
+GETTING: reading transducer... multus<ADJ><positive><neut><sg><acc>
+GETTING: finished. multus<ADJ><positive><neut><sg><acc>
+GETTING: multum multus<ADJ><positive><neut><sg><acc>
+PAIR: multum multus<ADJ><positive><neut><sg><acc>
+GETTING: reading transducer... multus<ADJ><positive><neut><sg><voc>
+GETTING: finished. multus<ADJ><positive><neut><sg><voc>
+GETTING: multum multus<ADJ><positive><neut><sg><voc>
+PAIR: multum multus<ADJ><positive><neut><sg><voc>
+DEFAULT MACRONIZATIONS of form multum:
+PAIR_PAIR multum --> multum<N><neut><sg><nom>
+PAIR_PAIR multum --> multum<N><neut><sg><acc>
+PAIR_PAIR multum --> multum<N><neut><sg><voc>
+PAIR_PAIR multum --> multum<ADV>
+PAIR_PAIR multum --> multus<ADJ><positive><ADV>
+PAIR_PAIR multum --> multus<ADJ><positive><masc><sg><acc>
+PAIR_PAIR multum --> multus<ADJ><positive><neut><sg><nom>
+PAIR_PAIR multum --> multus<ADJ><positive><neut><sg><acc>
+PAIR_PAIR multum --> multus<ADJ><positive><neut><sg><voc>
+
+PROBLEM: No macronizations for 'multum' (lemma: 'multus'; inflection: 'None') as LatMor form 'multus<ADV><positive>'. Returning default macronization 'multum' for LatMor form 'multum<N><neut><sg><nom>'.
+ille	ille	ADJ	Case=Nom|Gender=Masc|Number=Sing
+
+PROBLEM: No macronizations for 'ille' (lemma: 'ille'; inflection: '0') as LatMor form 'ille<ADJ><None><masc><sg><nom>'
+GETTING: reading transducer... ille<PRO><dem><masc><sg><nom>
+GETTING: finished. ille<PRO><dem><masc><sg><nom>
+GETTING: ille ille<PRO><dem><masc><sg><nom>
+PAIR: ille ille<PRO><dem><masc><sg><nom>
+DEFAULT MACRONIZATIONS of form ille:
+PAIR_PAIR ille --> ille<PRO><dem><masc><sg><nom>
+
+PROBLEM: No macronizations for 'ille' (lemma: 'ille'; inflection: '0') as LatMor form 'ille<ADJ><None><masc><sg><nom>'. Returning default macronization 'ille' for LatMor form 'ille<PRO><dem><masc><sg><nom>'.
+et	et	CCONJ	_
+
+GETTING: reading transducer... et<CONJ>
+GETTING: finished. et<CONJ>
+GETTING: et et<CONJ>
+PAIR: et et<CONJ>
+DEFAULT MACRONIZATIONS of form et:
+PAIR_PAIR et --> et<CONJ>
+
+This word 'et' is a Word of type Indecl. Using default macronization 'et' for LatMor form 'et<CONJ>'.
+terris	terra	NOUN	Case=Nom|Gender=Fem|Number=Sing
+
+PROBLEM: No macronizations for 'terris' (lemma: 'terra'; inflection: '1') as LatMor form 'terra<N><fem><sg><nom>'
+GETTING: reading transducer... terra<N><fem><pl><dat>
+GETTING: finished. terra<N><fem><pl><dat>
+GETTING: terrīs terra<N><fem><pl><dat>
+PAIR: terrīs terra<N><fem><pl><dat>
+GETTING: reading transducer... terra<N><fem><pl><abl>
+GETTING: finished. terra<N><fem><pl><abl>
+GETTING: terrīs terra<N><fem><pl><abl>
+PAIR: terrīs terra<N><fem><pl><abl>
+DEFAULT MACRONIZATIONS of form terris:
+PAIR_PAIR terrīs --> terra<N><fem><pl><dat>
+PAIR_PAIR terrīs --> terra<N><fem><pl><abl>
+
+PROBLEM: No macronizations for 'terris' (lemma: 'terra'; inflection: '1') as LatMor form 'terra<N><fem><sg><nom>'. Returning default macronization 'terrīs' for LatMor form 'terra<N><fem><pl><dat>'.
+iactatus	iacto	VERB	Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass
+
+et	et	CCONJ	_
+
+GETTING: reading transducer... et<CONJ>
+GETTING: finished. et<CONJ>
+GETTING: et et<CONJ>
+PAIR: et et<CONJ>
+DEFAULT MACRONIZATIONS of form et:
+PAIR_PAIR et --> et<CONJ>
+
+This word 'et' is a Word of type Indecl. Using default macronization 'et' for LatMor form 'et<CONJ>'.
+alto	altus	ADJ	Case=Abl|Degree=Pos|Gender=Neut|Number=Sing
+
+vi	vus	VERB	Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act
+
+Invalid lemma (cannot find infinitive): vus
+Invalid lemma (cannot find infinitive): vus
+ERROR: Could not determine conjugation	form: vi	lemma: vus	inf: ERROR
+PROBLEM: No macronizations for 'vi' (lemma: 'vus'; inflection: '-1') as LatMor form 'ERROR<V><perf><ind><active><sg><1>'
+GETTING: reading transducer... vis<N><fem><sg><abl>
+GETTING: finished. vis<N><fem><sg><abl>
+GETTING: vī vis<N><fem><sg><abl>
+PAIR: vī vis<N><fem><sg><abl>
+GETTING: reading transducer... VI<NUM><card><dig>
+GETTING: finished. VI<NUM><card><dig>
+GETTING: vī VI<NUM><card><dig>
+PAIR: vī VI<NUM><card><dig>
+DEFAULT MACRONIZATIONS of form vi:
+PAIR_PAIR vī --> vis<N><fem><sg><abl>
+PAIR_PAIR vī --> VI<NUM><card><dig>
+
+ERROR: Does not have valid conjugation	form: vi	lemma: vus	conjugation: -1
+. Returning default macronization 'vī' for LatMor form 'vis<N><fem><sg><abl>'.
+superum	superus	ADV	_
+
+PROBLEM: No macronizations for 'superum' (lemma: 'superus'; inflection: 'None') as LatMor form 'superus<ADV>'
+GETTING: reading transducer... superus<ADJ><positive><masc><sg><acc>
+GETTING: finished. superus<ADJ><positive><masc><sg><acc>
+GETTING: superum superus<ADJ><positive><masc><sg><acc>
+PAIR: superum superus<ADJ><positive><masc><sg><acc>
+GETTING: reading transducer... superus<ADJ><positive><neut><sg><nom>
+GETTING: finished. superus<ADJ><positive><neut><sg><nom>
+GETTING: superum superus<ADJ><positive><neut><sg><nom>
+PAIR: superum superus<ADJ><positive><neut><sg><nom>
+GETTING: reading transducer... superus<ADJ><positive><neut><sg><acc>
+GETTING: finished. superus<ADJ><positive><neut><sg><acc>
+GETTING: superum superus<ADJ><positive><neut><sg><acc>
+PAIR: superum superus<ADJ><positive><neut><sg><acc>
+GETTING: reading transducer... superus<ADJ><positive><neut><sg><voc>
+GETTING: finished. superus<ADJ><positive><neut><sg><voc>
+GETTING: superum superus<ADJ><positive><neut><sg><voc>
+PAIR: superum superus<ADJ><positive><neut><sg><voc>
+GETTING: reading transducer... super<ADJ><positive><masc><sg><acc>
+GETTING: finished. super<ADJ><positive><masc><sg><acc>
+GETTING: superum super<ADJ><positive><masc><sg><acc>
+PAIR: superum super<ADJ><positive><masc><sg><acc>
+GETTING: reading transducer... super<ADJ><positive><neut><sg><nom>
+GETTING: finished. super<ADJ><positive><neut><sg><nom>
+GETTING: superum super<ADJ><positive><neut><sg><nom>
+PAIR: superum super<ADJ><positive><neut><sg><nom>
+GETTING: reading transducer... super<ADJ><positive><neut><sg><acc>
+GETTING: finished. super<ADJ><positive><neut><sg><acc>
+GETTING: superum super<ADJ><positive><neut><sg><acc>
+PAIR: superum super<ADJ><positive><neut><sg><acc>
+GETTING: reading transducer... super<ADJ><positive><neut><sg><voc>
+GETTING: finished. super<ADJ><positive><neut><sg><voc>
+GETTING: superum super<ADJ><positive><neut><sg><voc>
+PAIR: superum super<ADJ><positive><neut><sg><voc>
+DEFAULT MACRONIZATIONS of form superum:
+PAIR_PAIR superum --> superus<ADJ><positive><masc><sg><acc>
+PAIR_PAIR superum --> superus<ADJ><positive><neut><sg><nom>
+PAIR_PAIR superum --> superus<ADJ><positive><neut><sg><acc>
+PAIR_PAIR superum --> superus<ADJ><positive><neut><sg><voc>
+PAIR_PAIR superum --> super<ADJ><positive><masc><sg><acc>
+PAIR_PAIR superum --> super<ADJ><positive><neut><sg><nom>
+PAIR_PAIR superum --> super<ADJ><positive><neut><sg><acc>
+PAIR_PAIR superum --> super<ADJ><positive><neut><sg><voc>
+
+PROBLEM: No macronizations for 'superum' (lemma: 'superus'; inflection: 'None') as LatMor form 'superus<ADV>'. Returning default macronization 'superum' for LatMor form 'superus<ADJ><positive><masc><sg><acc>'.
+saevae	saevus	NOUN	Case=Nom|Gender=Fem|Number=Plur
+
+PROBLEM: No macronizations for 'saevae' (lemma: 'saevus'; inflection: '4') as LatMor form 'saevus<N><fem><pl><nom>'
+GETTING: reading transducer... saevus<ADJ><positive><fem><sg><gen>
+GETTING: finished. saevus<ADJ><positive><fem><sg><gen>
+GETTING: saevae saevus<ADJ><positive><fem><sg><gen>
+PAIR: saevae saevus<ADJ><positive><fem><sg><gen>
+GETTING: reading transducer... saevus<ADJ><positive><fem><sg><dat>
+GETTING: finished. saevus<ADJ><positive><fem><sg><dat>
+GETTING: saevae saevus<ADJ><positive><fem><sg><dat>
+PAIR: saevae saevus<ADJ><positive><fem><sg><dat>
+GETTING: reading transducer... saevus<ADJ><positive><fem><pl><nom>
+GETTING: finished. saevus<ADJ><positive><fem><pl><nom>
+GETTING: saevae saevus<ADJ><positive><fem><pl><nom>
+PAIR: saevae saevus<ADJ><positive><fem><pl><nom>
+GETTING: reading transducer... saevus<ADJ><positive><fem><pl><voc>
+GETTING: finished. saevus<ADJ><positive><fem><pl><voc>
+GETTING: saevae saevus<ADJ><positive><fem><pl><voc>
+PAIR: saevae saevus<ADJ><positive><fem><pl><voc>
+DEFAULT MACRONIZATIONS of form saevae:
+PAIR_PAIR saevae --> saevus<ADJ><positive><fem><sg><gen>
+PAIR_PAIR saevae --> saevus<ADJ><positive><fem><sg><dat>
+PAIR_PAIR saevae --> saevus<ADJ><positive><fem><pl><nom>
+PAIR_PAIR saevae --> saevus<ADJ><positive><fem><pl><voc>
+
+PROBLEM: No macronizations for 'saevae' (lemma: 'saevus'; inflection: '4') as LatMor form 'saevus<N><fem><pl><nom>'. Returning default macronization 'saevae' for LatMor form 'saevus<ADJ><positive><fem><sg><gen>'.
+memorem	memor	NOUN	Case=Acc|Gender=Masc|Number=Sing
+
+PROBLEM: No macronizations for 'memorem' (lemma: 'memor'; inflection: '3') as LatMor form 'memor<N><masc><sg><acc>'
+GETTING: reading transducer... memorare<V><pres><subj><active><sg><1>
+GETTING: finished. memorare<V><pres><subj><active><sg><1>
+GETTING: memorem memorare<V><pres><subj><active><sg><1>
+PAIR: memorem memorare<V><pres><subj><active><sg><1>
+GETTING: reading transducer... memor<ADJ><positive><masc><sg><acc>
+GETTING: finished. memor<ADJ><positive><masc><sg><acc>
+GETTING: memorem memor<ADJ><positive><masc><sg><acc>
+PAIR: memorem memor<ADJ><positive><masc><sg><acc>
+GETTING: reading transducer... memor<ADJ><positive><fem><sg><acc>
+GETTING: finished. memor<ADJ><positive><fem><sg><acc>
+GETTING: memorem memor<ADJ><positive><fem><sg><acc>
+PAIR: memorem memor<ADJ><positive><fem><sg><acc>
+DEFAULT MACRONIZATIONS of form memorem:
+PAIR_PAIR memorem --> memorare<V><pres><subj><active><sg><1>
+PAIR_PAIR memorem --> memor<ADJ><positive><masc><sg><acc>
+PAIR_PAIR memorem --> memor<ADJ><positive><fem><sg><acc>
+
+PROBLEM: No macronizations for 'memorem' (lemma: 'memor'; inflection: '3') as LatMor form 'memor<N><masc><sg><acc>'. Returning default macronization 'memorem' for LatMor form 'memorare<V><pres><subj><active><sg><1>'.
+iunonis	Iuno	PROPN	Case=Gen|Gender=Masc|Number=Sing
+
+GETTING: reading transducer... no result for iunonis
+GETTING: finished. no result for iunonis
+GETTING: no result for no result for iunonis no result for iunonis
+DEFAULT MACRONIZATIONS of form iunonis:
+
+GETTING: reading transducer... Iuno<PN><fem><sg><gen>
+GETTING: finished. Iuno<PN><fem><sg><gen>
+GETTING: Iūnōnis Iuno<PN><fem><sg><gen>
+PAIR: Iūnōnis Iuno<PN><fem><sg><gen>
+DEFAULT MACRONIZATIONS of form Iunonis:
+PAIR_PAIR Iūnōnis --> Iuno<PN><fem><sg><gen>
+
+PROBLEM: No macronizations for 'iunonis' (lemma: 'Iuno'; inflection: 'None') as LatMor form 'Iuno<PN><fem><sg><gen>'
+GETTING: reading transducer... no result for iunonis
+GETTING: finished. no result for iunonis
+GETTING: no result for no result for iunonis no result for iunonis
+DEFAULT MACRONIZATIONS of form iunonis:
+
+GETTING: reading transducer... Iuno<PN><fem><sg><gen>
+GETTING: finished. Iuno<PN><fem><sg><gen>
+GETTING: Iūnōnis Iuno<PN><fem><sg><gen>
+PAIR: Iūnōnis Iuno<PN><fem><sg><gen>
+DEFAULT MACRONIZATIONS of form Iunonis:
+PAIR_PAIR Iūnōnis --> Iuno<PN><fem><sg><gen>
+
+PROBLEM: No macronizations for 'iunonis' (lemma: 'Iuno'; inflection: 'None') as LatMor form 'Iuno<PN><fem><sg><gen>'. Returning default macronization 'Iūnōnis' for LatMor form 'Iuno<PN><fem><sg><gen>'.
+ob	ob	ADP	_
+
+GETTING: reading transducer... ob<PREP>
+GETTING: finished. ob<PREP>
+GETTING: ob ob<PREP>
+PAIR: ob ob<PREP>
+DEFAULT MACRONIZATIONS of form ob:
+PAIR_PAIR ob --> ob<PREP>
+
+This word 'ob' is a Word of type Indecl. Using default macronization 'ob' for LatMor form 'ob<PREP>'.
+iram	ira	NOUN	Case=Acc|Gender=Fem|Number=Sing
+
+;	;	PUNCT	_
+
+multa	multus	ADJ	Case=Nom|Degree=Pos|Gender=Neut|Number=Plur
+
+quoque	quoque	ADV	_
+
+et	et	CCONJ	_
+
+GETTING: reading transducer... et<CONJ>
+GETTING: finished. et<CONJ>
+GETTING: et et<CONJ>
+PAIR: et et<CONJ>
+DEFAULT MACRONIZATIONS of form et:
+PAIR_PAIR et --> et<CONJ>
+
+This word 'et' is a Word of type Indecl. Using default macronization 'et' for LatMor form 'et<CONJ>'.
+bello	bellum	NOUN	Case=Abl|Gender=Neut|Number=Sing
+
+passus	patior	VERB	Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass
+
+,	,	PUNCT	_
+
+dum	dum	SCONJ	_
+
+GETTING: reading transducer... dum<CONJ>
+GETTING: finished. dum<CONJ>
+GETTING: dum dum<CONJ>
+PAIR: dum dum<CONJ>
+DEFAULT MACRONIZATIONS of form dum:
+PAIR_PAIR dum --> dum<CONJ>
+
+This word 'dum' is a Word of type Indecl. Using default macronization 'dum' for LatMor form 'dum<CONJ>'.
+conderet	condo	VERB	Aspect=Imp|Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act
+
+urbem	urbs	NOUN	Case=Acc|Gender=Fem|Number=Sing
+
+,	,	PUNCT	_
+
+inferretque	inferretque	CCONJ	_
+
+GETTING: reading transducer... inferre<V><imperf><subj><active><sg><3> que<PART>
+GETTING: finished. inferre<V><imperf><subj><active><sg><3> que<PART>
+GETTING: īnferretque inferre<V><imperf><subj><active><sg><3> que<PART>
+PAIR: īnferretque inferre<V><imperf><subj><active><sg><3> que<PART>
+DEFAULT MACRONIZATIONS of form inferretque:
+PAIR_PAIR īnferretque --> inferre<V><imperf><subj><active><sg><3> que<PART>
+
+This word 'inferretque' is a Word of type Indecl. Using default macronization 'īnferretque' for LatMor form 'inferre<V><imperf><subj><active><sg><3> que<PART>'.
+deos	deus	ADJ	Case=Acc|Gender=Masc|Number=Plur|Person=1|Poss=Yes
+
+GETTING: reading transducer... deus<N><masc><pl><acc>
+GETTING: finished. deus<N><masc><pl><acc>
+GETTING: deōs deus<N><masc><pl><acc>
+PAIR: deōs deus<N><masc><pl><acc>
+DEFAULT MACRONIZATIONS of form deos:
+PAIR_PAIR deōs --> deus<N><masc><pl><acc>
+
+This word 'deos' is a Word of type Indecl. Using default macronization 'deōs' for LatMor form 'deus<N><masc><pl><acc>'.
+latio	Latius	NOUN	Case=Nom|Gender=Fem|Number=Sing
+
+PROBLEM: No macronizations for 'latio' (lemma: 'Latius'; inflection: '4') as LatMor form 'Latius<N><fem><sg><nom>'
+GETTING: reading transducer... latio<N><fem><sg><nom>
+GETTING: finished. latio<N><fem><sg><nom>
+GETTING: lātiō latio<N><fem><sg><nom>
+PAIR: lātiō latio<N><fem><sg><nom>
+GETTING: reading transducer... latio<N><fem><sg><voc>
+GETTING: finished. latio<N><fem><sg><voc>
+GETTING: lātiō latio<N><fem><sg><voc>
+PAIR: lātiō latio<N><fem><sg><voc>
+DEFAULT MACRONIZATIONS of form latio:
+PAIR_PAIR lātiō --> latio<N><fem><sg><nom>
+PAIR_PAIR lātiō --> latio<N><fem><sg><voc>
+
+PROBLEM: No macronizations for 'latio' (lemma: 'Latius'; inflection: '4') as LatMor form 'Latius<N><fem><sg><nom>'. Returning default macronization 'lātiō' for LatMor form 'latio<N><fem><sg><nom>'.
+,	,	PUNCT	_
+
+genus	genus	NOUN	Case=Nom|Gender=Neut|Number=Sing
+
+unde	unde	ADV	PronType=Int
+
+latinum	Latinus	ADJ	Case=Acc|Degree=Pos|Gender=Masc,Neut|Number=Sing
+
+PROBLEM: No macronizations for 'latinum' (lemma: 'Latinus'; inflection: '1') as LatMor form 'Latinus<ADJ><positive><masc><sg><acc>'
+GETTING: reading transducer... no result for latinum
+GETTING: finished. no result for latinum
+GETTING: no result for no result for latinum no result for latinum
+DEFAULT MACRONIZATIONS of form latinum:
+
+GETTING: reading transducer... Latinus<ADJ><positive><masc><sg><acc>
+GETTING: finished. Latinus<ADJ><positive><masc><sg><acc>
+GETTING: Latīnum Latinus<ADJ><positive><masc><sg><acc>
+PAIR: Latīnum Latinus<ADJ><positive><masc><sg><acc>
+GETTING: reading transducer... Latinus<ADJ><positive><neut><sg><nom>
+GETTING: finished. Latinus<ADJ><positive><neut><sg><nom>
+GETTING: Latīnum Latinus<ADJ><positive><neut><sg><nom>
+PAIR: Latīnum Latinus<ADJ><positive><neut><sg><nom>
+GETTING: reading transducer... Latinus<ADJ><positive><neut><sg><acc>
+GETTING: finished. Latinus<ADJ><positive><neut><sg><acc>
+GETTING: Latīnum Latinus<ADJ><positive><neut><sg><acc>
+PAIR: Latīnum Latinus<ADJ><positive><neut><sg><acc>
+GETTING: reading transducer... Latinus<ADJ><positive><neut><sg><voc>
+GETTING: finished. Latinus<ADJ><positive><neut><sg><voc>
+GETTING: Latīnum Latinus<ADJ><positive><neut><sg><voc>
+PAIR: Latīnum Latinus<ADJ><positive><neut><sg><voc>
+GETTING: reading transducer... Latinus<PN><masc><sg><acc>
+GETTING: finished. Latinus<PN><masc><sg><acc>
+GETTING: Latīnum Latinus<PN><masc><sg><acc>
+PAIR: Latīnum Latinus<PN><masc><sg><acc>
+DEFAULT MACRONIZATIONS of form Latinum:
+PAIR_PAIR Latīnum --> Latinus<ADJ><positive><masc><sg><acc>
+PAIR_PAIR Latīnum --> Latinus<ADJ><positive><neut><sg><nom>
+PAIR_PAIR Latīnum --> Latinus<ADJ><positive><neut><sg><acc>
+PAIR_PAIR Latīnum --> Latinus<ADJ><positive><neut><sg><voc>
+PAIR_PAIR Latīnum --> Latinus<PN><masc><sg><acc>
+
+PROBLEM: No macronizations for 'latinum' (lemma: 'Latinus'; inflection: '1') as LatMor form 'Latinus<ADJ><positive><masc><sg><acc>'. Returning default macronization 'Latīnum' for LatMor form 'Latinus<ADJ><positive><masc><sg><acc>'.
+,	,	PUNCT	_
+
+albanique	Albanique	ADV	_
+
+PROBLEM: No macronizations for 'albanique' (lemma: 'Albanique'; inflection: 'None') as LatMor form 'Albanique<ADV>'
+GETTING: reading transducer... no result for albanique
+GETTING: finished. no result for albanique
+GETTING: no result for no result for albanique no result for albanique
+DEFAULT MACRONIZATIONS of form albanique:
+
+GETTING: reading transducer... Albani<PN><masc><pl><nom> que<PART>
+GETTING: finished. Albani<PN><masc><pl><nom> que<PART>
+GETTING: Albānīque Albani<PN><masc><pl><nom> que<PART>
+PAIR: Albānīque Albani<PN><masc><pl><nom> que<PART>
+GETTING: reading transducer... Albani<PN><masc><pl><voc> que<PART>
+GETTING: finished. Albani<PN><masc><pl><voc> que<PART>
+GETTING: Albānīque Albani<PN><masc><pl><voc> que<PART>
+PAIR: Albānīque Albani<PN><masc><pl><voc> que<PART>
+GETTING: reading transducer... Albanus<ADJ><positive><masc><sg><gen> que<PART>
+GETTING: finished. Albanus<ADJ><positive><masc><sg><gen> que<PART>
+GETTING: Albānīque Albanus<ADJ><positive><masc><sg><gen> que<PART>
+PAIR: Albānīque Albanus<ADJ><positive><masc><sg><gen> que<PART>
+GETTING: reading transducer... Albanus<ADJ><positive><masc><pl><nom> que<PART>
+GETTING: finished. Albanus<ADJ><positive><masc><pl><nom> que<PART>
+GETTING: Albānīque Albanus<ADJ><positive><masc><pl><nom> que<PART>
+PAIR: Albānīque Albanus<ADJ><positive><masc><pl><nom> que<PART>
+GETTING: reading transducer... Albanus<ADJ><positive><masc><pl><voc> que<PART>
+GETTING: finished. Albanus<ADJ><positive><masc><pl><voc> que<PART>
+GETTING: Albānīque Albanus<ADJ><positive><masc><pl><voc> que<PART>
+PAIR: Albānīque Albanus<ADJ><positive><masc><pl><voc> que<PART>
+GETTING: reading transducer... Albanus<ADJ><positive><neut><sg><gen> que<PART>
+GETTING: finished. Albanus<ADJ><positive><neut><sg><gen> que<PART>
+GETTING: Albānīque Albanus<ADJ><positive><neut><sg><gen> que<PART>
+PAIR: Albānīque Albanus<ADJ><positive><neut><sg><gen> que<PART>
+DEFAULT MACRONIZATIONS of form Albanique:
+PAIR_PAIR Albānīque --> Albani<PN><masc><pl><nom> que<PART>
+PAIR_PAIR Albānīque --> Albani<PN><masc><pl><voc> que<PART>
+PAIR_PAIR Albānīque --> Albanus<ADJ><positive><masc><sg><gen> que<PART>
+PAIR_PAIR Albānīque --> Albanus<ADJ><positive><masc><pl><nom> que<PART>
+PAIR_PAIR Albānīque --> Albanus<ADJ><positive><masc><pl><voc> que<PART>
+PAIR_PAIR Albānīque --> Albanus<ADJ><positive><neut><sg><gen> que<PART>
+
+PROBLEM: No macronizations for 'albanique' (lemma: 'Albanique'; inflection: 'None') as LatMor form 'Albanique<ADV>'. Returning default macronization 'Albānīque' for LatMor form 'Albani<PN><masc><pl><nom> que<PART>'.
+patres	pater	NOUN	Case=Nom|Gender=Masc|Number=Plur
+
+,	,	PUNCT	_
+
+atque	atque	CCONJ	_
+
+GETTING: reading transducer... atque<CONJ>
+GETTING: finished. atque<CONJ>
+GETTING: atque atque<CONJ>
+PAIR: atque atque<CONJ>
+GETTING: reading transducer... at<PREP> que<PART>
+GETTING: finished. at<PREP> que<PART>
+GETTING: atque at<PREP> que<PART>
+PAIR: atque at<PREP> que<PART>
+GETTING: reading transducer... at<CONJ> que<PART>
+GETTING: finished. at<CONJ> que<PART>
+GETTING: atque at<CONJ> que<PART>
+PAIR: atque at<CONJ> que<PART>
+DEFAULT MACRONIZATIONS of form atque:
+PAIR_PAIR atque --> atque<CONJ>
+PAIR_PAIR atque --> at<PREP> que<PART>
+PAIR_PAIR atque --> at<CONJ> que<PART>
+
+This word 'atque' is a Word of type Indecl. Using default macronization 'atque' for LatMor form 'atque<CONJ>'.
+altae	altus	ADJ	Case=Nom|Degree=Pos|Gender=Fem|Number=Plur
+
+moenia	moenia	NOUN	Case=Nom|Gender=Neut|Number=Plur
+
+romae	Roma	PROPN	Case=Gen|Gender=Fem|Number=Sing
+
+GETTING: reading transducer... no result for romae
+GETTING: finished. no result for romae
+GETTING: no result for no result for romae no result for romae
+DEFAULT MACRONIZATIONS of form romae:
+
+GETTING: reading transducer... Roma<PN><fem><sg><gen>
+GETTING: finished. Roma<PN><fem><sg><gen>
+GETTING: Rōmae Roma<PN><fem><sg><gen>
+PAIR: Rōmae Roma<PN><fem><sg><gen>
+GETTING: reading transducer... Roma<PN><fem><sg><dat>
+GETTING: finished. Roma<PN><fem><sg><dat>
+GETTING: Rōmae Roma<PN><fem><sg><dat>
+PAIR: Rōmae Roma<PN><fem><sg><dat>
+GETTING: reading transducer... Roma<PN><fem><pl><nom>
+GETTING: finished. Roma<PN><fem><pl><nom>
+GETTING: Rōmae Roma<PN><fem><pl><nom>
+PAIR: Rōmae Roma<PN><fem><pl><nom>
+GETTING: reading transducer... Roma<PN><fem><pl><voc>
+GETTING: finished. Roma<PN><fem><pl><voc>
+GETTING: Rōmae Roma<PN><fem><pl><voc>
+PAIR: Rōmae Roma<PN><fem><pl><voc>
+DEFAULT MACRONIZATIONS of form Romae:
+PAIR_PAIR Rōmae --> Roma<PN><fem><sg><gen>
+PAIR_PAIR Rōmae --> Roma<PN><fem><sg><dat>
+PAIR_PAIR Rōmae --> Roma<PN><fem><pl><nom>
+PAIR_PAIR Rōmae --> Roma<PN><fem><pl><voc>
+
+PROBLEM: No macronizations for 'romae' (lemma: 'Roma'; inflection: 'None') as LatMor form 'Roma<PN><fem><sg><gen>'
+GETTING: reading transducer... no result for romae
+GETTING: finished. no result for romae
+GETTING: no result for no result for romae no result for romae
+DEFAULT MACRONIZATIONS of form romae:
+
+GETTING: reading transducer... Roma<PN><fem><sg><gen>
+GETTING: finished. Roma<PN><fem><sg><gen>
+GETTING: Rōmae Roma<PN><fem><sg><gen>
+PAIR: Rōmae Roma<PN><fem><sg><gen>
+GETTING: reading transducer... Roma<PN><fem><sg><dat>
+GETTING: finished. Roma<PN><fem><sg><dat>
+GETTING: Rōmae Roma<PN><fem><sg><dat>
+PAIR: Rōmae Roma<PN><fem><sg><dat>
+GETTING: reading transducer... Roma<PN><fem><pl><nom>
+GETTING: finished. Roma<PN><fem><pl><nom>
+GETTING: Rōmae Roma<PN><fem><pl><nom>
+PAIR: Rōmae Roma<PN><fem><pl><nom>
+GETTING: reading transducer... Roma<PN><fem><pl><voc>
+GETTING: finished. Roma<PN><fem><pl><voc>
+GETTING: Rōmae Roma<PN><fem><pl><voc>
+PAIR: Rōmae Roma<PN><fem><pl><voc>
+DEFAULT MACRONIZATIONS of form Romae:
+PAIR_PAIR Rōmae --> Roma<PN><fem><sg><gen>
+PAIR_PAIR Rōmae --> Roma<PN><fem><sg><dat>
+PAIR_PAIR Rōmae --> Roma<PN><fem><pl><nom>
+PAIR_PAIR Rōmae --> Roma<PN><fem><pl><voc>
+
+PROBLEM: No macronizations for 'romae' (lemma: 'Roma'; inflection: 'None') as LatMor form 'Roma<PN><fem><sg><gen>'. Returning default macronization 'Rōmae' for LatMor form 'Roma<PN><fem><sg><gen>'.
+.	.	PUNCT	_
+

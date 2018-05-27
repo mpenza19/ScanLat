@@ -12,11 +12,13 @@ vowels = 'aeiouy'                               # Single vowels
 lower_long_vowels = u'āēīōūȳ'                   # Single lowercase long vowels
 upper_long_vowels = u'ĀĒĪŌŪȲ'                   # Single uppercase long vowels
 all_lower_vowels = lower_long_vowels + vowels
+little_i = ['i', 'ī']
 diphthongs = ['ae', 'au', 'ei', 'eu', 'oe']     # Diphthongs
 consonants = 'bcdfghklmnpqrstv'                 # Single consonants
 plosives = 'pbtdcg'                             # Plosive-liquid combinations (treated as single cons.)
 liquids = 'rl'
 single_cons_digraphs = ['qu', 'ch', 'ph', 'th'] # Digraphs treated as single consonants
+qu = 'qu'
 double_cons_letters = ['x', 'z']                # Letters counted as two consonants
 punctuation = '.,?!/()|\\[]–;—:-`\'\"'              # Punctuation marks
 
@@ -25,8 +27,7 @@ punctuation = '.,?!/()|\\[]–;—:-`\'\"'              # Punctuation marks
 ##############################################################################
 
 def tokenize(data):
-    """ Cleans and tokenizes whole-document input
-    """
+    """ Cleans and tokenizes whole-document input """
 
     wholelines = data.decode('utf-8').splitlines()
     tokenized_lines = []
@@ -38,12 +39,10 @@ def tokenize(data):
     return tokenized_lines
 
 class Word:
-    """ Representation of a word as plaintext and a list of syllables
-    """
+    """ Representation of a word as plaintext and a list of syllables """
     def __init__(self, word):
         self.word = word                                      # Plaintext whole word
         self.syllables = self.syllabify(word)                 # List of constituent Syllables
-
 
     # Breaks word into Syllables
     def syllabify(self, word):
@@ -52,98 +51,50 @@ class Word:
         wordc = word.lower()
 
         # Special case: rare diphthong 'ui'
-        # Special case: rare long first syllable of words with consonantal 'i' between vowels
         if wordc in ['huic', 'hui', 'cui']: return [Syllable(word)]
+        
+        # Special case: rare long first syllable of words with consonantal 'i' between vowels
         if wordc in ['huius', 'cuius', 'maior', 'peior']: return [Syllable(word[0:3]), Syllable(word[3:])]
 
         ext = "_____"
-        wordc = wordc + ext # underscore-extended copy of word for analysis
+        wordc += ext # underscore-extended copy of word for analysis
         seps = [False] * len(word) # True: letter marks start of new noninitial syllable; False: otherwise
 
         i = 0
         while i < len(wordc):
-            if i == 0 and wordc[i] in ['i', 'ī'] and wordc[i+1] in all_lower_vowels: i += 1 # Skip initial consonantal 'I' preceding vowel/diphthong
-            elif wordc[i:i+2] == 'qu': i += 2 # Skip 'qu' as single consonant
+            if i == 0 and wordc[i] in little_i and wordc[i+1] in all_lower_vowels: i += 1 # Skip initial consonantal 'I' preceding vowel/diphthong
+            elif wordc[i:i+2] == qu: i += 2 # Skip 'qu' as single consonant
             elif wordc[i] not in all_lower_vowels: i += 1 # Skip single consonants
             else:
-                if wordc[i:i+2] not in diphthongs and wordc[i+1] in ['i', 'ī'] and wordc[i+2] in all_lower_vowels:
-                    seps[i+1] = True # VIV --> V-IV
-                    i += 2
+                rules = {
+                    "VIV"             : (wordc[i:i+2] not in diphthongs and wordc[i+1] in little_i and wordc[i+2] in all_lower_vowels,                                                                                  1, 2),
+                    "DDIV_or_DDIDD"   : (wordc[i:i+2] in diphthongs and wordc[i+2] in little_i and wordc[i+3] in all_lower_vowels,                                                                                      2, 3),
+                    "VV"              : (wordc[i:i+2] not in diphthongs and wordc[i+1] in all_lower_vowels,                                                                                                             1, 1),
+                    "VDD"             : (wordc[i:i+2] not in diphthongs and wordc[i+1:i+3] in diphthongs,                                                                                                               1, 2),
+                    "DDV"             : (wordc[i:i+2] in diphthongs and wordc[i+2] in all_lower_vowels,                                                                                                                 2, 2),
+                    "VXV"             : (wordc[i+1] in double_cons_letters and wordc[i+2] in all_lower_vowels,                                                                                                          2, 2),
+                    "VXPLV"           : (wordc[i+1] in double_cons_letters and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels,                                                     2, 4),
+                    "VXCV"            : (wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != qu,                                                    2, 3),
+                    "VXCCV"           : (wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != qu,                       2, 4),
+                    "VCV"             : (wordc[i+1] in consonants and wordc[i+2] in all_lower_vowels and wordc[i+1:i+3] != qu,                                                                                          1, 2),
+                    "VPLV"            : (wordc[i+1] in plosives and wordc[i+2] in liquids and wordc[i+3] in all_lower_vowels,                                                                                           1, 3),
+                    "VCPLV"           : (wordc[i+1] in consonants and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels,                                                              2, 4),
+                    "VSSV"            : (wordc[i+1:i+3] in single_cons_digraphs and wordc[i+3] in all_lower_vowels,                                                                                                     1, 3),
+                    "VCSSV"           : (wordc[i+1] in consonants and wordc[i+2:i+4] in single_cons_digraphs and wordc[i+4] in all_lower_vowels,                                                                        2, 4),
+                    "VCCV"            : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != qu,                                                             2, 3),
+                    "VCQUV"           : (wordc[i+1] in consonants and wordc[i+2:i+4] == qu and wordc[i+4] in all_lower_vowels,                                                                                          2, 4),
+                    "VCCCV"           : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != qu,                                3, 4),
+                    "VCCQUV"          : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3:i+5] == qu and wordc[i+5] in all_lower_vowels,                                                             3, 5),
+                    "VCCCCV"          : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in consonants and word[i+5] in all_lower_vowels and wordc[i+4:i+6] != qu,    4, 5)
+                }
 
-                elif wordc[i:i+2] in diphthongs and wordc[i+2] in ['i', 'ī'] and wordc[i+3] in all_lower_vowels:
-                    seps[i+2] = True # (DD)IV --> (DD)-IV  ||OR||  (DD)I(DD) --> (DD)-I(DD)
-                    i += 3
-
-                elif wordc[i:i+2] not in diphthongs and wordc[i+1] in all_lower_vowels:
-                    seps[i+1] = True # VV --> V-V
-                    i += 1
-
-                elif wordc[i:i+2] not in diphthongs and wordc[i+1:i+3] in diphthongs:
-                    seps[i+1] = True # V(DD) --> V-(DD)
-                    i += 2
-
-                elif wordc[i:i+2] in diphthongs and wordc[i+2] in all_lower_vowels:
-                    seps[i+2] = True # (DD)V --> (DD)-V  ||OR||  (DD)(DD) --> (DD)-(DD)
-                    i += 2
-
-                elif wordc[i+1] in double_cons_letters and wordc[i+2] in all_lower_vowels:
-                    seps[i+2] = True # VXV --> VX-V
-                    i += 2
-
-                elif wordc[i+1] in double_cons_letters and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels:
-                    seps[i+2] = True # VX(PL)V --> VX-(PL)V
-                    i += 4
-
-                elif wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != 'qu':
-                    seps[i+2] = True # VXCV --> VX-CV
-                    i += 3
-
-                elif wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != 'qu':
-                    seps[i+2] = True # VXCCV --> VX-CCV
-                    i += 4
-
-                elif wordc[i+1] in consonants and wordc[i+2] in all_lower_vowels and wordc[i+1:i+3] != 'qu':
-                    seps[i+1] = True # VCV --> V-CV
-                    i += 2
-
-                elif wordc[i+1] in plosives and wordc[i+2] in liquids and wordc[i+3] in all_lower_vowels:
-                    seps[i+1] = True # V(PL)V --> V-(PL)V
-                    i += 3
-
-                elif wordc[i+1] in consonants and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels:
-                    seps[i+2] = True # VC(PL)V --> VC-(PL)V
-                    i += 4
-
-                elif wordc[i+1:i+3] in single_cons_digraphs and wordc[i+3] in all_lower_vowels:
-                    seps[i+1] = True # V(SS)V --> V-(SS)V
-                    i += 3
-
-                elif wordc[i+1] in consonants and wordc[i+2:i+4] in single_cons_digraphs and wordc[i+4] in all_lower_vowels:
-                    seps[i+2] = True # VC(SS)V --> VC-(SS)V
-                    i += 4
-
-                elif wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != 'qu':
-                    seps[i+2] = True # VCCV --> VC-CV
-                    i += 3
-
-                elif wordc[i+1] in consonants and wordc[i+2:i+4] == 'qu' and wordc[i+4] in all_lower_vowels:
-                    seps[i+2] = True # VC(QU)V --> VC-(QU)V
-                    i += 4
-
-                elif wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != 'qu':
-                    seps[i+3] = True # VCCCV --> VCC-CV
-                    i += 4
-
-                elif wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3:i+5] == 'qu' and wordc[i+5] in all_lower_vowels:
-                    seps[i+3] = True # VCC(QU)V --> VCC-(QU)V
-                    i += 5
-
-                elif wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in consonants and word[i+5] in all_lower_vowels and wordc[i+4:i+6] != 'qu':
-                    seps[i+4] = True # VCCCCV --> VCCC-CV
-                    i += 5
-
-                else:
-                    i += 1
+                for key in rules.keys():
+                    is_this_rule, seps_incr, i_incr = rules[key]
+                    if is_this_rule:
+                        seps[i + seps_incr] = True
+                        i += i_incr
+                        break
+                else: i += 1
 
         syllables = []
         syl = ''
@@ -176,34 +127,31 @@ class Syllable:
         
 
     def parse(self):
-        """ Breaks plaintext whole syllable into onset, nucleus, and coda
-        """
+        """ Breaks plaintext whole syllable into onset, nucleus, and coda """
+        onset, nucleus, coda = '', '', ''
 
         if self.syl.startswith("ERROR_") or self.syl.startswith("error_"):
             self.iserror = True
-            return '', '', ''
+            return onset, nucleus, coda
 
         sylc = self.syl.lower() # Lowercased syllable for analysis ('c' for 'comparison')
 
         if len(sylc) == 0 or self.syl in [' ', '\n'] or (len(sylc) == 1 and sylc in punctuation):
             self.is_syl = False
-            return '', '', ''
+            return onset, nucleus, coda
 
-        
-
-        onset, nucleus, coda = '', '', ''
         has_onset = sylc[0] in consonants or sylc[0] in double_cons_letters
-        if len(sylc) > 1: has_onset = has_onset or (sylc[0] in ['i', 'ī'] and sylc[1] in all_lower_vowels)
+        if len(sylc) > 1: has_onset = has_onset or (sylc[0] in little_i and sylc[1] in all_lower_vowels)
         has_coda = sylc[-1] in consonants or sylc[-1] in double_cons_letters
 
         # Find start of nucleus
         i = 0
         while i < len(sylc):
-            if sylc[i:i+2] == 'qu':
+            if sylc[i:i+2] == qu:
                 i += 2
                 continue
 
-            if i == 0 and sylc[i] in ['i', 'ī'] and i+1 < len(sylc) and sylc[i+1] in all_lower_vowels:
+            if i == 0 and sylc[i] in little_i and i+1 < len(sylc) and sylc[i+1] in all_lower_vowels:
                 i += 1
                 continue
 
@@ -361,104 +309,9 @@ def print_document(data):
 
     split_output = output.split('\n')
     for l in range(len(split_output)): 
-        line_num = str(l+1) if (l+1) % 5 == 0 else ""
+        line_num = str(l+1) if (l+1) % 5 == 0 else ''
         line = split_output[l]
         sys.stdout.write("%s\t%s\n" % (line_num, line.strip()))
-
-
-def print_document_old(data):
-    output = ""
-    for line in tokenize(data):
-
-        for word_index in range(len(line)):
-            
-            word = line[word_index]
-            
-            syllables = word.get_syllables()
-            syl_in_word = 0
-
-            if word_index == 0:
-                if isinstance(syllables[0], Syllable):
-                    prev_syl = syllables[0]
-                    syl_in_word = 1
-                        
-            while syl_in_word < len(syllables):
-                if word_index == len(line)-1 and syl_in_word == len(syllables)-1 and isinstance(prev_syl, Syllable):
-                    prev_syl.set_brevisinlongo(True)
-
-                if isinstance(prev_syl, Syllable) and isinstance(syllables[syl_in_word], Syllable) and (word_index < len(line) or (word_index == len(line)-1 and syl_in_word < len(syllables)-1)):
-                    this_syl = syllables[syl_in_word] 
-
-                    jump_punct = isinstance(prev_syl, Syllable) and not this_syl.is_syl
-                    jump_punct = jump_punct and word_index+1 < len(line)-1
-                    if jump_punct:
-                        nextwordsyls = line[word_index+1].get_syllables()
-                        if isinstance(nextwordsyls[0], Syllable):
-                            jump_punct = nextwordsyls[0].is_syl
-                        else:
-                            jump_punct = False
-
-                    if isinstance(prev_syl, Syllable) and isinstance(this_syl, Syllable) and this_syl.is_syl:
-                        prev_syl.set_next(this_syl)
-                        prev_syl.macronize()
-
-                    elif jump_punct:
-                        prev_syl.set_next(nextwordsyls[0])
-                        prev_syl.macronize()
-
-                elif isinstance(syllables, str):
-                    this_syl = syllables
-                    output += ' ' + syllables
-
-                elif isinstance(prev_syl, Syllable) and isinstance(syllables[syl_in_word], Syllable) and word_index == len(line)-1 and syl_in_word == len(syllables)-1:
-                    prev_syl.macronize()
-
-                
-                if word_index != 0 and syl_in_word == 1:
-                    output += ' '
-
-                if isinstance(prev_syl, Syllable) and prev_syl.is_syl:
-                    output += str(prev_syl).lower()
-                elif isinstance(this_syl, str):
-                    output += '' + str(this_syl)
-                
-
-                prev_syl = this_syl
-                syl_in_word += 1
-
-            
-
-        #if isinstance(prev_syl, str): continue
-
-
-        if isinstance(this_syl, Syllable) and this_syl.is_syl:
-            prev_syl.set_brevisinlongo(True)
-        
-        if isinstance(this_syl, Syllable):
-            this_syl.macronize()
-
-        
-        if isinstance(prev_syl, Syllable) and isinstance(this_syl, str):
-            output += ' ' #+ str(this_syl) + '\n'
-
-        elif isinstance(this_syl, str):
-            output += ' ' #+ str(this_syl) + '\n'
-
-        elif isinstance(prev_syl, Syllable) and isinstance(this_syl, Syllable) and not this_syl.is_syl:
-            output += ' ' + str(this_syl).lower() + '\n'
-
-        elif isinstance(prev_syl, Syllable) and isinstance(this_syl, Syllable) and this_syl.is_syl:
-            output += str(this_syl).lower() + '\n'
-
-        elif isinstance(prev_syl, str): output = output
-
-        else:
-            output += ' ' + str(this_syl.decode('utf-8')) + '\n'
-        
-
-    for line in output.split('\n'):
-        sys.stdout.write(line.lstrip() + '\n')
-
 
 def main():
     data = clean.clean_lines(sys.stdin.read())

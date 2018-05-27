@@ -150,4 +150,4 @@ def main():
 
     print '#### END TEXT-CLEANING TESTS ####################################'
 
-main()
+#main()

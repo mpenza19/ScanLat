@@ -11,8 +11,7 @@ import natural
 def config():
     # In Python2, wrap sys.stdin and sys.stdout to work with unicode.
     if sys.version_info[0] < 3:
-        import codecs
-        import locale
+        import codecs, locale
         global encoding
         encoding = locale.getpreferredencoding()
         sys.stdin = codecs.getreader(encoding)(sys.stdin)
@@ -21,13 +20,13 @@ def config():
 def get_pipeline():
     # Load model, handle errors
     global model
-    sys.stderr.write('Loading model: ')
+    sys.stderr.write('Loading model... ')
     model_filename = "UDPipe-ud2/latin-proiel.udpipe"
     model = Model.load(model_filename)
     if not model:
         sys.stderr.write("Cannot load model from file '%s'\n" % model_filename)
         sys.exit(1)
-    sys.stderr.write('done\n')
+    sys.stderr.write('Done.\n')
 
     # Create model pipeline
     pipeline = Pipeline(model, "horizontal", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
@@ -45,7 +44,6 @@ def process_text(txt, pipeline, error):
         sys.stderr.write("\n")
         sys.exit(1)
     
-
     return processed
 
 def main():
@@ -64,18 +62,18 @@ def main():
             sys.stdout.write('\n')
             continue
 
-        line = line.split('\t')[1:]
-        form, lemma, pos, feats_str = line[0].lower(), line[1], line[2], line[4]
+        form, lemma, pos, feats_str = line.split('\t')[1:]
+        form_lower = form.lower()
         sys.stderr.write("%s\t%s\t%s\t%s\n\n" % (form, lemma, pos, feats_str))
 
         # A few irregular cases
-        if form == "amen": 
+        if form_lower == "amen": 
             word = natural.Word(form, lemma, feats_str)
-            word.macronized = "āmēn"
-        elif form in ["quot", "quotquot"]:
+            word.macronized = "āmēn" if form == form_lower else "Āmēn"
+        elif form_lower in ["quot", "quotquot"]:
             word = natural.Word(form, lemma, feats_str)
             word.macronized = form
-        elif form.lower() in ["iesus", "iesum", "iesu"]:
+        elif form_lower in ["iesus", "iesum", "iesu"]:
             word = natural.Word(form, lemma, feats_str)
             if "Case=Nom" in feats_str: word.macronized = form[0] + "ēsus"
             elif "Case=Acc" in feats_str: word.macronized = form[0] + "ēsum"
@@ -105,10 +103,5 @@ def main():
         
         sys.stdout.write(word.macronized)
         if word.macronized != '\n': sys.stdout.write(' ')
-
-    
-
-        
-        
 
 main()

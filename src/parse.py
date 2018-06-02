@@ -62,7 +62,8 @@ def main():
             sys.stdout.write('\n')
             continue
 
-        form, lemma, pos, feats_str = line.split('\t')[1:]
+        line = line.split('\t')[1:]
+        form, lemma, pos, feats_str = line[0], line[1], line[2], line[4]
         form_lower = form.lower()
         sys.stderr.write("%s\t%s\t%s\t%s\n\n" % (form, lemma, pos, feats_str))
 

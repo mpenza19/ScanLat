@@ -102,6 +102,12 @@ def multiple_replace(text, adict):
         return adict[match.group(0)]
     return rx.sub(one_xlat, text)
 
+def newline_locs(txt):
+    locs = []
+    for i in range(len(txt)):
+        if txt[i] == '\n': locs.append(i)
+    return locs
+
 def clean_text(txt):
     return multiple_replace(txt, basic_replacements).replace('\n', ' \n ')
 
@@ -115,12 +121,6 @@ def clean_lines(txt):
 
 def demacronized_lines(txt):
     return multiple_replace(clean_lines(txt), macron_replacements)
-
-def newline_locs(txt):
-    locs = []
-    for i in range(len(txt)):
-        if txt[i] == '\n': locs.append(i)
-    return locs
 
 def main():
     print '#### BEGIN TEXT-CLEANING TESTS ##################################'

@@ -12,15 +12,15 @@ vowels = 'aeiouy'                               # Single vowels
 lower_long_vowels = u'āēīōūȳ'                   # Single lowercase long vowels
 upper_long_vowels = u'ĀĒĪŌŪȲ'                   # Single uppercase long vowels
 all_lower_vowels = lower_long_vowels + vowels
-little_i = ['i', 'ī']
-diphthongs = ['ae', 'au', 'ei', 'eu', 'oe']     # Diphthongs
+little_i = ('i', 'ī')
+diphthongs = ('ae', 'au', 'ei', 'eu', 'oe')     # Diphthongs
 consonants = 'bcdfghklmnpqrstv'                 # Single consonants
 plosives = 'pbtdcg'                             # Plosive-liquid combinations (treated as single cons.)
 liquids = 'rl'
-single_cons_digraphs = ['qu', 'ch', 'ph', 'th'] # Digraphs treated as single consonants
+single_cons_digraphs = ('qu', 'ch', 'ph', 'th') # Digraphs treated as single consonants
 qu = 'qu'
-double_cons_letters = ['x', 'z']                # Letters counted as two consonants
-punctuation = '.,?!/()|\\[]–;—:-`\'\"'              # Punctuation marks
+double_cons_letters = ('x', 'z')                # Letters counted as two consonants
+punctuation = '.,?!/()|\\[]–;—:-`\'\"'          # Punctuation marks
 
 ##############################################################################
 #  Text representation and analysis                                          #
@@ -51,10 +51,10 @@ class Word:
         wordc = word.lower()
 
         # Special case: rare diphthong 'ui'
-        if wordc in ['huic', 'hui', 'cui']: return [Syllable(word)]
+        if wordc in ('huic', 'hui', 'cui'): return [Syllable(word)]
         
         # Special case: rare long first syllable of words with consonantal 'i' between vowels
-        if wordc in ['huius', 'cuius', 'maior', 'peior']: return [Syllable(word[0:3]), Syllable(word[3:])]
+        if wordc in ('huius', 'cuius', 'maior', 'peior'): return [Syllable(word[0:3]), Syllable(word[3:])]
 
         ext = "_____"
         wordc += ext # underscore-extended copy of word for analysis
@@ -116,8 +116,8 @@ class Syllable:
     """
 
     def __init__(self, syl):
-        self.syl = syl.decode('utf-8')                                         # Plaintext whole syllable
-        self.is_syl = True                                         # Assume not empty or punct. unless parse() finds otherwise
+        self.syl = syl.decode('utf-8')                          # Plaintext whole syllable
+        self.is_syl = True                                      # Assume not empty or punct. unless parse() finds otherwise
         self.iserror = False
         self.onset, self.nucleus, self.coda = self.parse()      # Plaintext syllable components
 
@@ -136,7 +136,7 @@ class Syllable:
 
         sylc = self.syl.lower() # Lowercased syllable for analysis ('c' for 'comparison')
 
-        if len(sylc) == 0 or self.syl in [' ', '\n'] or (len(sylc) == 1 and sylc in punctuation):
+        if len(sylc) == 0 or self.syl in (' ', '\n') or (len(sylc) == 1 and sylc in punctuation):
             self.is_syl = False
             return onset, nucleus, coda
 

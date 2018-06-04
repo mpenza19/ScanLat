@@ -2,6 +2,7 @@
 import sys, re, clean
 reload(sys)
 sys.setdefaultencoding('utf-8')
+from collections import OrderedDict
 
 ##############################################################################
 #  Categorized letters and digraphs                                          #
@@ -66,31 +67,32 @@ class Word:
             elif wordc[i:i+2] == qu: i += 2 # Skip 'qu' as single consonant
             elif wordc[i] not in all_lower_vowels: i += 1 # Skip single consonants
             else:
-                rules = {
-                    "VIV"             : (wordc[i:i+2] not in diphthongs and wordc[i+1] in little_i and wordc[i+2] in all_lower_vowels,                                                                                  1, 2),
-                    "DDIV_or_DDIDD"   : (wordc[i:i+2] in diphthongs and wordc[i+2] in little_i and wordc[i+3] in all_lower_vowels,                                                                                      2, 3),
-                    "VV"              : (wordc[i:i+2] not in diphthongs and wordc[i+1] in all_lower_vowels,                                                                                                             1, 1),
-                    "VDD"             : (wordc[i:i+2] not in diphthongs and wordc[i+1:i+3] in diphthongs,                                                                                                               1, 2),
-                    "DDV"             : (wordc[i:i+2] in diphthongs and wordc[i+2] in all_lower_vowels,                                                                                                                 2, 2),
-                    "VXV"             : (wordc[i+1] in double_cons_letters and wordc[i+2] in all_lower_vowels,                                                                                                          2, 2),
-                    "VXPLV"           : (wordc[i+1] in double_cons_letters and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels,                                                     2, 4),
-                    "VXCV"            : (wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != qu,                                                    2, 3),
-                    "VXCCV"           : (wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != qu,                       2, 4),
-                    "VCV"             : (wordc[i+1] in consonants and wordc[i+2] in all_lower_vowels and wordc[i+1:i+3] != qu,                                                                                          1, 2),
-                    "VPLV"            : (wordc[i+1] in plosives and wordc[i+2] in liquids and wordc[i+3] in all_lower_vowels,                                                                                           1, 3),
-                    "VCPLV"           : (wordc[i+1] in consonants and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels,                                                              2, 4),
-                    "VSSV"            : (wordc[i+1:i+3] in single_cons_digraphs and wordc[i+3] in all_lower_vowels,                                                                                                     1, 3),
-                    "VCSSV"           : (wordc[i+1] in consonants and wordc[i+2:i+4] in single_cons_digraphs and wordc[i+4] in all_lower_vowels,                                                                        2, 4),
-                    "VCCV"            : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != qu,                                                             2, 3),
-                    "VCQUV"           : (wordc[i+1] in consonants and wordc[i+2:i+4] == qu and wordc[i+4] in all_lower_vowels,                                                                                          2, 4),
-                    "VCCCV"           : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != qu,                                3, 4),
-                    "VCCQUV"          : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3:i+5] == qu and wordc[i+5] in all_lower_vowels,                                                             3, 5),
-                    "VCCCCV"          : (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in consonants and word[i+5] in all_lower_vowels and wordc[i+4:i+6] != qu,    4, 5)
-                }
-
+                rules = OrderedDict([
+                    ("VIV"           , (wordc[i:i+2] not in diphthongs and wordc[i+1] in little_i and wordc[i+2] in all_lower_vowels,                                                                                  1, 2)),
+                    ("DDIV_or_DDIDD" , (wordc[i:i+2] in diphthongs and wordc[i+2] in little_i and wordc[i+3] in all_lower_vowels,                                                                                      2, 3)),
+                    ("VV"            , (wordc[i:i+2] not in diphthongs and wordc[i+1] in all_lower_vowels,                                                                                                             1, 1)),
+                    ("VDD"           , (wordc[i:i+2] not in diphthongs and wordc[i+1:i+3] in diphthongs,                                                                                                               1, 2)),
+                    ("DDV"           , (wordc[i:i+2] in diphthongs and wordc[i+2] in all_lower_vowels,                                                                                                                 2, 2)),
+                    ("VXV"           , (wordc[i+1] in double_cons_letters and wordc[i+2] in all_lower_vowels,                                                                                                          2, 2)),
+                    ("VXPLV"         , (wordc[i+1] in double_cons_letters and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels,                                                     2, 4)),
+                    ("VXCV"          , (wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != qu,                                                    2, 3)),
+                    ("VXCCV"         , (wordc[i+1] in double_cons_letters and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != qu,                       2, 4)),
+                    ("VCV"           , (wordc[i+1] in consonants and wordc[i+2] in all_lower_vowels and wordc[i+1:i+3] != qu,                                                                                          1, 2)),
+                    ("VPLV"          , (wordc[i+1] in plosives and wordc[i+2] in liquids and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != qu,                                                                  1, 3)),
+                    ("VCPLV"         , (wordc[i+1] in consonants and wordc[i+2] in plosives and wordc[i+3] in liquids and wordc[i+4] in all_lower_vowels,                                                              2, 4)),
+                    ("VSSV"          , (wordc[i+1:i+3] in single_cons_digraphs and wordc[i+3] in all_lower_vowels,                                                                                                     1, 3)),
+                    ("VCSSV"         , (wordc[i+1] in consonants and wordc[i+2:i+4] in single_cons_digraphs and wordc[i+4] in all_lower_vowels,                                                                        2, 4)),
+                    ("VCCV"          , (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in all_lower_vowels and wordc[i+2:i+4] != qu,                                                             2, 3)),
+                    ("VCQUV"         , (wordc[i+1] in consonants and wordc[i+2:i+4] == qu and wordc[i+4] in all_lower_vowels,                                                                                          2, 4)),
+                    ("VCCCV"         , (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != qu,                                3, 4)),
+                    ("VCCQUV"        , (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3:i+5] == qu and wordc[i+5] in all_lower_vowels,                                                             3, 5)),
+                    ("VCCCCV"        , (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in consonants and word[i+5] in all_lower_vowels and wordc[i+4:i+6] != qu,    4, 5))
+                ]) 
+                    
                 for key in rules.keys():
                     is_this_rule, seps_incr, i_incr = rules[key]
                     if is_this_rule:
+                        #print key, wordc, i, wordc[i]
                         seps[i + seps_incr] = True
                         i += i_incr
                         break
@@ -316,5 +318,6 @@ def print_document(data):
 def main():
     data = clean.clean_lines(sys.stdin.read())
     print_document(data)
+    #print_syllabified(data)
 
 main()

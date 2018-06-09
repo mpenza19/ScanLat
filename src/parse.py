@@ -54,7 +54,7 @@ def main():
     pipeline, error = get_pipeline()
     processed = process_text(txt, pipeline, error)
 
-    rawparse = processed.split('\n')[2:]
+    rawparse = processed.split('\n')[2:-2]
     for line in rawparse: 
         if line.startswith("# sent_id =") or line.startswith("# newpar"): continue
 

@@ -34,16 +34,24 @@ def tokenize(data):
     tokenized_lines = []
     for wholeline in wholelines:
         tokens = re.findall(r"[\w']+|[.,!?();:]", wholeline, flags=re.UNICODE)
-        tokens = [Word(t) for t in tokens if not t.isdigit()]
+        tokens = [Word(word=t) for t in tokens if not t.isdigit()]
         tokenized_lines.append(tokens)
 
     return tokenized_lines
 
 class Word:
     """ Representation of a word as plaintext and a list of syllables """
-    def __init__(self, word):
-        self.word = word                                      # Plaintext whole word
-        self.syllables = self.syllabify(word)                 # List of constituent Syllables
+    def __init__(self, word=None, syllables=None):
+        
+        if word is not None:
+            self.word = word                                      # Plaintext whole word
+            self.syllables = self.syllabify(word)                 # List of constituent Syllables
+        elif syllables is not None:
+            self.word = ""
+            for this_syl in syllables: self.word += str(this_syl)
+            self.syllables = syllables
+        else:
+            sys.stderr.write("Invalid call to Word constructor. Needs a word string or iterable of Syllable objects.\n")
 
     # Breaks word into Syllables
     def syllabify(self, word):
@@ -68,7 +76,7 @@ class Word:
             elif wordc[i] not in all_lower_vowels: i += 1 # Skip single consonants
             else:
                 rules = OrderedDict([
-                    ("VIV"           , (wordc[i:i+2] not in diphthongs and wordc[i+1] in little_i and wordc[i+2] in all_lower_vowels,                                                                                  1, 2)),
+                    ("VIV_or_VIDD"   , (wordc[i:i+2] not in diphthongs and wordc[i+1] in little_i and wordc[i+2] in all_lower_vowels,                                                                                  1, 2)),
                     ("DDIV_or_DDIDD" , (wordc[i:i+2] in diphthongs and wordc[i+2] in little_i and wordc[i+3] in all_lower_vowels,                                                                                      2, 3)),
                     ("VV"            , (wordc[i:i+2] not in diphthongs and wordc[i+1] in all_lower_vowels,                                                                                                             1, 1)),
                     ("VDD"           , (wordc[i:i+2] not in diphthongs and wordc[i+1:i+3] in diphthongs,                                                                                                               1, 2)),
@@ -92,7 +100,6 @@ class Word:
                 for key in rules.keys():
                     is_this_rule, seps_incr, i_incr = rules[key]
                     if is_this_rule:
-                        #print key, wordc, i, wordc[i]
                         seps[i + seps_incr] = True
                         i += i_incr
                         break
@@ -120,13 +127,13 @@ class Syllable:
     def __init__(self, syl):
         self.syl = syl.decode('utf-8')                          # Plaintext whole syllable
         self.is_syl = True                                      # Assume not empty or punct. unless parse() finds otherwise
-        self.iserror = False
-        self.onset, self.nucleus, self.coda = self.parse()      # Plaintext syllable components
-
-        self.fnucleus = None                                    # Formatted nucleus (diphthongs not macronized)
-        self.next = None                                        # The next syllable ***in the LINE***
-        self.brevisinlongo = False
         
+        self.iserror = False
+        self.brevisinlongo = False
+        self.next = None                                        # The next syllable ***in the LINE***
+        
+        self.onset, self.nucleus, self.coda = self.parse()      # Plaintext syllable components
+        self.long = None                                        # Syllable quantity (length); True==long, False==short
 
     def parse(self):
         """ Breaks plaintext whole syllable into onset, nucleus, and coda """
@@ -187,36 +194,23 @@ class Syllable:
 
         return onset, nucleus, coda
 
+    def det_pos_quantity(self):
+        """ Determines and sets the positional length of the syllable. True for long, False for short. """
+
+        is_long = len(self.nucleus) == 2 or self.nucleus in lower_long_vowels or self.nucleus in upper_long_vowels
+        is_long = is_long or self.brevisinlongo # Brevis in longo
+        is_long = is_long or len(self.coda) == 2 or self.coda in double_cons_letters # Ends in double consonant
+        is_long = is_long or (self.coda != '' and self.next is not None and self.next.get_onset() != '') # Ends in consonant and next begins in consonant
+        is_long = is_long and self.syl not in punctuation and self.is_syl
+        
+        self.long = is_long
+
     def get_onset(self):    return self.onset
     def get_nucleus(self):  return self.nucleus
     def get_coda(self):     return self.coda
     def get_next(self):     return self.next
     def set_next(self, next): self.next = next
-
-    def macronize(self):
-        if self.nucleus == '': return
         
-        should_macronize = self.get_brevisinlongo() # Brevis in longo
-        should_macronize = should_macronize or len(self.coda) == 2 or self.coda in double_cons_letters # Ends in double consonant
-        should_macronize = should_macronize or (self.coda != '' and self.next is not None and self.next.get_onset() != '')
-        
-        if should_macronize: 
-            if len(self.nucleus) == 1:
-                if self.nucleus == self.nucleus.lower():
-                    if self.nucleus in lower_long_vowels.decode('utf-8'):
-                        self.fnucleus = self.nucleus
-                    else:
-                        self.fnucleus = lower_long_vowels[vowels.index(self.nucleus)]
-
-                elif self.nucleus == self.nucleus.upper():
-                    if self.nucleus in upper_long_vowels.decode('utf-8'):
-                        self.fnucleus = self.nucleus
-                    else:
-                        self.fnucleus = upper_long_vowels[vowels.index(self.nucleus.lower())]
-
-            else:
-                self.fnucleus = self.nucleus
-
     def get_brevisinlongo(self):
         return self.brevisinlongo
 
@@ -224,26 +218,122 @@ class Syllable:
         self.brevisinlongo = is_brevis
 
     def __str__(self):
-        if self.syl in punctuation: return self.syl
+        if self.syl in punctuation or self.syl.startswith("ERROR_"): return self.syl
         if not self.is_syl: return ''
-        if self.syl.startswith("ERROR_"): return self.syl
 
-        o = self.onset if self.onset != '' else ''
-        n = self.fnucleus if self.fnucleus is not None else self.nucleus
-        c = self.coda if self.coda != '' else ''
-        return o+n+c
+        return self.onset + self.nucleus + self.coda
 
     def verbose(self):
-        if self.syl in punctuation: return self.syl
+        if self.syl in punctuation or self.syl.startswith("ERROR_"): return self.syl
         if not self.is_syl: return ''
 
         o = self.onset if self.onset != '' else '_'
-        n = self.fnucleus if self.fnucleus is not None else self.nucleus
+        n = self.nucleus
         c = self.coda if self.coda != '' else '_'
         return '[%s-%s-%s]' % (o, n, c)
 
-def print_syllabified(data):
-    for line in tokenize(data):
+def analyze(data):
+    output = ""
+    markup = ""
+    tokenized_data = tokenize(data)
+    new_tokenized_data = []
+    for l in range(len(tokenized_data)):
+        line = tokenized_data[l]
+        newline = []
+        prev_word_syllables = line[0].get_syllables() if len(line) > 0 else []
+
+
+        for word_index in range(len(line)):
+            word = line[word_index]
+            syllables = word.get_syllables()
+            
+            index = 0
+            if word_index == 0:
+                prev_syl = syllables[0]
+                index = 1
+                new_word_syls = []
+
+            if len(prev_word_syllables) == 1:
+                new_word = Word(syllables=new_word_syls)
+                newline.append(new_word)
+                new_word_syls = []
+
+            for syl_in_word in range(index-1, len(syllables)-1):
+                syl_in_word += 1
+                
+                if syl_in_word == 1:
+                    new_word = Word(syllables=new_word_syls)
+                    newline.append(new_word)
+                    new_word_syls = []
+
+                if word_index == len(line)-1 and syl_in_word == len(syllables)-1 and not syllables[-1].is_syl:
+                    prev_syl.set_brevisinlongo(True)
+
+                this_syl = syllables[syl_in_word]
+
+                jump_punct = not this_syl.is_syl
+                jump_punct = jump_punct and word_index+1 < len(line)-1
+                if jump_punct:
+                    nextwordsyls = line[word_index+1].get_syllables()
+                    jump_punct = nextwordsyls[0].is_syl
+                    
+                if this_syl.is_syl:
+                    prev_syl.set_next(this_syl)
+                    prev_syl.det_pos_quantity()
+
+                elif jump_punct:
+                    prev_syl.set_next(nextwordsyls[0])
+                    prev_syl.det_pos_quantity()
+
+                prev_syl.det_pos_quantity()
+                new_word_syls.append(prev_syl)
+
+                if word_index != 0 and syl_in_word == 1:
+                    output += ' '
+                    markup += ' '
+                   
+                output += str(prev_syl)
+
+                onset_whitespace = len(prev_syl.onset)
+                nucleus_length = len(prev_syl.nucleus)
+                coda_whitespace = len(prev_syl.coda) # if len(prev_syl.nucleus) == 1 else len(prev_syl.coda) + 1
+                markup_addition = "—"*nucleus_length if prev_syl.long else "U" if prev_syl.is_syl else ""
+                markup_addition = " "*onset_whitespace + markup_addition + " "*(coda_whitespace)
+                markup += markup_addition
+
+                prev_syl = this_syl
+                
+                if prev_syl.syl in punctuation:
+                    markup += ' '
+
+                if len(syllables) == 1:
+                    output += ' '
+                    markup += ' '
+
+            prev_word_syllables = syllables
+
+        this_syl.set_brevisinlongo(True)
+        this_syl.det_pos_quantity()
+
+        new_word_syls.append(this_syl)
+        new_word = Word(syllables=new_word_syls)
+        newline.append(new_word)
+        new_tokenized_data.append(newline)
+        
+        if l != len(tokenized_data)-1:
+            output += str(this_syl) + '\n'
+
+            onset_whitespace = len(prev_syl.onset)
+            nucleus_length = len(prev_syl.nucleus)
+            coda_whitespace = len(prev_syl.coda)
+            markup_addition = "—"*nucleus_length if prev_syl.long else "U" if prev_syl.is_syl else ""
+            markup_addition = " "*onset_whitespace + markup_addition + " "*(coda_whitespace+1)
+            markup += markup_addition + '\n'
+
+    return new_tokenized_data, output, markup
+
+def print_syllabified(tokenized_data):
+    for line in tokenized_data:
         sys.stdout.write("ORIGINAL:\t")
         for word in line:
             sys.stdout.write("%s " % word)
@@ -256,68 +346,24 @@ def print_syllabified(data):
             sys.stdout.write('  ')
         sys.stdout.write('\n\n')
 
+def print_markup(text, markup):
+    split_text, split_markup = text.split('\n'), markup.split('\n')
 
-def print_document(data):
-    output = ""
-    tokenized_data = tokenize(data)
-    for l in range(len(tokenized_data)):
-        line = tokenized_data[l]
+    if len(split_markup) != len(split_text):
+        sys.stdout.write("ERROR: markup & text have different number of lines.\n")
+        exit(1)
 
-
-        for word_index in range(len(line)):
-            word = line[word_index]
-            syllables = word.get_syllables()
-            
-            index = 0
-            if word_index == 0:
-                prev_syl = syllables[0]
-                index = 1
-
-            
-
-            for syl_in_word in range(index-1, len(syllables)-1):
-                syl_in_word += 1
-                
-                if word_index == len(line)-1 and syl_in_word == len(syllables)-1 and not syllables[-1].is_syl:
-                    prev_syl.set_brevisinlongo(True)
-
-                this_syl = syllables[syl_in_word] 
-
-                jump_punct = not this_syl.is_syl
-                jump_punct = jump_punct and word_index+1 < len(line)-1
-                if jump_punct:
-                    nextwordsyls = line[word_index+1].get_syllables()
-                    jump_punct = nextwordsyls[0].is_syl
-                    
-                if this_syl.is_syl:
-                    prev_syl.set_next(this_syl)
-                    prev_syl.macronize()
-
-                elif jump_punct:
-                    prev_syl.set_next(nextwordsyls[0])
-                    prev_syl.macronize()
-
-                prev_syl.macronize()
-
-                if word_index != 0 and syl_in_word == 1: output += ' '
-                output += str(prev_syl)
-                prev_syl = this_syl
-                if len(syllables) == 1: output += ' '
-            
-        this_syl.set_brevisinlongo(True)
-        this_syl.macronize()
-        
-        if l != len(tokenized_data)-1: output += str(this_syl) + '\n'
-
-    split_output = output.split('\n')
-    for l in range(len(split_output)): 
+    for l in range(len(split_text)): 
         line_num = str(l+1) if (l+1) % 5 == 0 else ''
-        line = split_output[l]
-        sys.stdout.write("%s\t%s\n" % (line_num, line.strip()))
+        line = split_text[l].strip()
+        markup = split_markup[l]
+        sys.stdout.write("\t%s\n%s\t%s\n\n" % (markup, line_num, line))
 
 def main():
     data = clean.clean_lines(sys.stdin.read())
-    print_document(data)
-    #print_syllabified(data)
+    tokenized_data, text, markup = analyze(data)
+    print_markup(text, markup)
+    #print "\n\n\n"
+    #print_syllabified(tokenized_data)
 
 main()

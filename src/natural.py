@@ -8,9 +8,9 @@ I thought not. It's not a technique COS 333 would teach you.
 It's a StackOverflow legend.... """
 from os import popen
 
-noun_declensions = (1, 2, 3, 4, 5)
+noun_declensions = (0, 1, 2, 3, 4, 5)
 adj_declensions = (1, 3)
-verb_conjugations = (1, 2, 3, 4)
+verb_conjugations = (0, 1, 2, 3, 4)
 long_vowels = 'āēīōūȳ'.decode('utf-8')
 vowels = 'aeiouy'
 
@@ -23,11 +23,12 @@ class Word:
         self.inflection = None
         self.macronized = None
         self.latmor = None
+        self.initcap = form[0] == form[0].upper()
 
     def find_inflection(self): return None
     def macronize(self): return None
     
-    def macronize_default(self):
+    def macronize_default(self, flipped=False):
         lines = list()
         with popen("echo '%s' | fst-mor LatMor/latmor.a" % self.form) as f:
             for line in f: lines.append(line.strip().decode('utf-8')) 
@@ -56,11 +57,20 @@ class Word:
         if len(macronization_latmor_pairs) >= 1 and not macronization_latmor_pairs[0][0].startswith("no result"):
             return macronization_latmor_pairs[0]
 
-        if self.form[0] != self.form[0].upper():
-            word_copy = Word(self.form[0].upper() + self.form[1:], self.lemma[0].upper() + self.lemma[1:], self.feats_str)
-            copy_default_macronized, copy_default_latmor = word_copy.macronize_default()
+        if not flipped:
+            if not self.initcap:
+                copy_form = self.form[0].upper() + self.form[1:]
+                copy_lemma = self.lemma[0].upper() + self.lemma[1:]
+                
+            else:
+                copy_form = self.form[0].lower() + self.form[1:]
+                copy_lemma = self.lemma[0].lower() + self.lemma[1:]
+
+            word_copy = Word(copy_form, copy_lemma, self.feats_str)
+            copy_default_macronized, copy_default_latmor = word_copy.macronize_default(flipped=True)
             if copy_default_macronized is not None and not copy_default_macronized.startswith("no result"):
                 return copy_default_macronized, copy_default_latmor
+
 
         return default_macronized, default_latmor
             
@@ -353,7 +363,7 @@ class Noun(Word):
     def macronize(self):
         form, lemma, feats, declension = self.form, self.lemma, self.feats, self.inflection
 
-        if declension not in [0, 1, 2, 3, 4, 5] or self.gender is None or self.case is None or self.number is None:
+        if declension not in noun_declensions or self.gender is None or self.case is None or self.number is None:
             sys.stderr.write("ERROR: Does not have valid declension or gender or case or number\tform: %s\tlemma: %s\tdeclension: %s\tgender: %s\tcase: %s\tnumber: %s\n" % (form, lemma, declension, self.gender, self.case, self.number))
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
@@ -386,7 +396,7 @@ class Adj(Word):
     def find_inflection(self):
         lemma, feats = self.lemma, self.feats
 
-        if lemma in ['bonus', 'magnus', 'malus', 'parvus', 'multus'] or self.degree is None: return 0 # irregular
+        if lemma in ('bonus', 'magnus', 'malus', 'parvus', 'multus') or self.degree is None: return 0 # irregular
         if feats["Degree"] == "Pos":  
             if lemma[-2:] == 'us': return 1
             return 3
@@ -561,7 +571,7 @@ class Verb(Word):
 
         candidates = self.get_macronizations()
 
-        if conjugation not in [0, 1, 2, 3, 4, 5] or (len(candidates) == 0 and attempts >= 3):
+        if conjugation not in verb_conjugations or (len(candidates) == 0 and attempts >= 3):
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("ERROR: Does not have valid conjugation\tform: %s\tlemma: %s\tconjugation: %s\n. Returning default macronization '%s' for LatMor form '%s'.\n" % (form, lemma, conjugation, default_macronized, default_latmor))
             return default_macronized
@@ -639,7 +649,7 @@ class VerbFin(Verb):
             sys.stderr.write("Unable to find person of '%s'\n" % self.form)
             return 0
 
-        if person in [1, 2, 3]: return person
+        if person in (1, 2, 3): return person
         
         return 0
 

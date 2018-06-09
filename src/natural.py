@@ -14,7 +14,9 @@ verb_conjugations = (0, 1, 2, 3, 4)
 long_vowels = 'āēīōūȳ'.decode('utf-8')
 vowels = 'aeiouy'
 
-# remember to set 'cherub' POS to Noun
+irreg_nouns = ('domus', 'locus', 'deus', 'balneus', 'bos', 'cherub', 'Iesus', 'Jesus')
+irreg_verbs = ('sum', 'possum', 'volo', 'nolo', 'fero', 'eo', 'malo')
+
 class Word:
     def __init__(self, form, lemma, feats_str):
         self.feats_str = feats_str
@@ -71,13 +73,8 @@ class Word:
             if copy_default_macronized is not None and not copy_default_macronized.startswith("no result"):
                 return copy_default_macronized, copy_default_latmor
 
-
         return default_macronized, default_latmor
-            
-
-        
-
-
+    
     def all_macronizations(self, string):
         lines = []
         with popen("echo '%s' | fst-mor LatMor/latmor-macronizer.a" % string) as f:
@@ -96,7 +93,6 @@ class Word:
         demac = mac.replace('ā', 'a').replace('ē', 'e').replace('ī', 'i').replace('ō', 'o').replace('ū', 'u').replace('ȳ', 'y')
         demac = demac.replace('Ā', 'A').replace('Ē', 'E').replace('Ī', 'I').replace('Ō', 'O').replace('Ū', 'U').replace('Ȳ', 'Y')
         return demac
-
 
 class Noun(Word):
     def __init__(self, form, lemma, feats_str):
@@ -129,31 +125,30 @@ class Noun(Word):
     def find_inflection(self):
         lemma, feats = self.lemma, self.feats
         
-        if lemma in ['domus', 'locus', 'deus', 'balneus', 'bos', 'cherub', 'Iesus', 'Jesus']:
-            return 0 # irregular
-
-        if lemma in ['dies', 'meridies']:                               return 5
-        if lemma == 'aer':                                              return 3
-                
-        if lemma[-1] == 'a':                                            return 1
+        if lemma in irreg_nouns:                                            return 0 # irregular
+        if lemma in ['dies', 'meridies']:                                   return 5
+        if lemma == 'aer':                                                  return 3
+        if lemma[-1] == 'a':                                                return 1
         if "Gender" in feats:
-            if lemma[-1] == 'e' and feats["Gender"] == "Fem":               return 1
-            if lemma[-2:] in ['es', 'as'] and feats["Gender"] == "Masc":    return 1
+            gender = feats["Gender"]
 
-            if lemma[-2:] == 'er' and feats["Gender"] == "Masc": return 2
-            if lemma[-2:] == 'us' and feats["Gender"] == "Masc":
-                if len(self.all_macronizations(lemma)) > 1: return 4
-                return 2
+            if lemma[-1] == 'e' and gender == "Fem":                        return 1
+            if lemma[-2:] in ['es', 'as'] and gender == "Masc":             return 1
 
-            if lemma[-2:] == 'um' and feats["Gender"] == "Neut":            return 2
-            if lemma[-2:] == 'os' and feats["Gender"] in ["Masc", "Fem"]:   return 2
-            if 'y' in lemma and lemma[-2:] in ['us', 'os'] and feats["Gender"] in ["Masc", "Fem"]: return 2
+            if lemma[-2:] == 'er' and gender == "Masc":                     return 2
+            if lemma[-2:] == 'us' and gender == "Masc":
+                if len(self.all_macronizations(lemma)) > 1:                 return 4
+                else:                                                       return 2
 
-            if lemma[-2:] == 'us' and feats["Gender"] in ["Masc", "Fem"]:   return 4
-            if lemma[-1] == 'u' and feats["Gender"] == "Neut":              return 4
-            if lemma[-1] == 'o' and feats["Gender"] == "Fem":               return 4
+            if lemma[-2:] == 'um' and gender == "Neut":                     return 2
+            if lemma[-2:] == 'os' and gender in ("Masc", "Fem"):            return 2
+            if 'y' in lemma and lemma[-2:] in ('us', 'os') and gender in ("Masc", "Fem"): return 2
+
+            if lemma[-2:] == 'us' and gender in ("Masc", "Fem"):            return 4
+            if lemma[-1] == 'u' and gender == "Neut":                       return 4
+            if lemma[-1] == 'o' and gender == "Fem":                        return 4
             
-            if lemma[-2:] == 'es' and feats["Gender"] == "Fem":             return 5
+            if lemma[-2:] == 'es' and gender == "Fem":                      return 5
         
         return 3
 
@@ -170,16 +165,13 @@ class Noun(Word):
         if len(candidates) > 1:
             lastc = form[-1]
             for cand in candidates:
-                if cand[-1] == lastc:
-                    #print "returning:", cand
-                    return cand
+                if cand[-1] == lastc: return cand
             sys.stderr.write("PROBLEM: 1st decl. noun '%s' has multiple macronizations but no suitable match:\t" % form)
             for cand in candidates: sys.stderr.write("%s\t" % cand)
             sys.stderr.write('\n')
             return "ERROR"
 
         # Handle normal forms
-        #print "returning:", candidates[0]
         return candidates[0]
 
     def macronize_second(self):
@@ -196,16 +188,13 @@ class Noun(Word):
             if self.number == "sg" and self.case in ["nom", "acc", "voc"] and form[-2:] in ['os', 'us', 'on', 'um']:
                 lastcc = form[-2:]
                 for cand in candidates:
-                    if cand[-2:] == lastcc:
-                        #print "returning:", cand
-                        return cand
+                    if cand[-2:] == lastcc: return cand
             
             sys.stderr.write("PROBLEM: 2nd decl. noun '%s' has multiple macronizations but no suitable match:\t" % form)
             for cand in candidates: sys.stderr.write("%s\t" % cand)
             sys.stderr.write('\n')
             return "ERROR"
 
-        #print "returning:", candidates[0]
         return candidates[0]
 
     def macronize_third(self):
@@ -240,14 +229,11 @@ class Noun(Word):
             sys.stderr.write('\n')
             return "ERROR"
             
-        #print "returning:", candidates[0]
         return candidates[0]
 
     def macronize_irreg(self):
         form, lemma, feats, declension = self.form, self.lemma, self.feats, self.inflection
         case, number = feats["Case"], feats["Number"]
-        
-        #'āēīōūȳ'.decode('utf-8')
 
         """
         if len(candidates) == 0:
@@ -308,8 +294,7 @@ class Noun(Word):
             lform = form.lower()
 
             if number == "Sing":
-                if case != "Voc":
-                    retval = self.macronize_second()
+                if case != "Voc": retval = self.macronize_second()
                 
                 else:
                     if lform == "deus": retval = "deus"
@@ -330,16 +315,11 @@ class Noun(Word):
                     if lform == "diis": retval = "diīs"
                     if lform == "deis": retval = "deīs"
                 
-                if case == "Acc":
-                    retval = "deōs"
+                if case == "Acc": retval = "deōs"
 
             retval = retval.decode('utf-8')
-            if form[0] == 'd': 
-                #print "returning2:", retval
-                return retval
-            if form[0] == 'D': 
-                #print "returning2:", 'D' + retval[1:]
-                return 'D' + retval[1:]
+            if form[0] == 'd': return retval
+            if form[0] == 'D': return 'D' + retval[1:]
 
         if lemma == "balneus":
             if form == "balneum": return "balneum"
@@ -351,9 +331,7 @@ class Noun(Word):
             if form == "bubus": return "būbus".decode('utf-8')
             return self.macronize_third()
         
-        # Remember to coerce "cherub" to be a noun
-        if lemma == "cherub":
-            return form
+        if lemma == "cherub": return form
 
         if lemma in ["Iesus", "Jesus"]:
             if case == "Nom": return "Iēsus"
@@ -371,7 +349,6 @@ class Noun(Word):
 
         if declension == 0:
             mac = self.macronize_irreg()
-            #print "returning:", mac
             return mac
 
         if declension == 1: return self.macronize_first()
@@ -398,10 +375,10 @@ class Adj(Word):
 
         if lemma in ('bonus', 'magnus', 'malus', 'parvus', 'multus') or self.degree is None: return 0 # irregular
         if feats["Degree"] == "Pos":  
-            if lemma[-2:] == 'us': return 1
-            return 3
-        if feats["Degree"] == "Cmp": return 3
-        if feats["Degree"] == "Sup": return 1
+            if lemma[-2:] == 'us':      return 1
+            else:                       return 3
+        if feats["Degree"] == "Cmp":    return 3
+        if feats["Degree"] == "Sup":    return 1
 
     def macronize(self):
         candidates = self.get_macronizations()
@@ -431,24 +408,17 @@ class Adv(Word):
 
     def get_latmor(self):
         latmor = "%s<ADV><%s>" % (self.lemma, self.degree) if self.degree != "NA" else "%s<ADV>" % self.lemma
-
-        if self.lemma in ["bonus", "malus"]:
-            latmor = "%s<ADJ><%s><ADV>" % (self.lemma, self.degree)
-
+        if self.lemma in ["bonus", "malus"]: latmor = "%s<ADJ><%s><ADV>" % (self.lemma, self.degree)
         return latmor
 
     def macronize(self):
         candidates = self.get_macronizations()
+        
         if len(candidates) == 0:
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
             return default_macronized
 
-        if len(candidates) == 1:
-            #print "returning:", candidates[0]
-            return candidates[0]
-        
-        #print "too many candidates; returning first:", candidates[0]
         return candidates[0]
 
 class Verb(Word):
@@ -477,7 +447,7 @@ class Verb(Word):
 
         lines = [l.strip().replace('>', '').split('<') for l in lines[2:]]
         for line in lines:
-            if not deponent and line[1] == 'V':                       return line[0]
+            if not deponent and line[1] == 'V':                                          return line[0]
             if deponent and line[1] == 'V' and len(line) >= 5 and line[4] == 'deponens': return line[0]
 
         sys.stderr.write("form: %s\tlemma: %s\tCould not determine infinitive\n" % (form, lemma))
@@ -490,20 +460,20 @@ class Verb(Word):
         self.inf = self.find_infinitive()
         inf = self.inf
 
-        if lemma in ['sum', 'possum', 'volo', 'nolo', 'fero', 'eo', 'malo']: return 0 # irregular
+        if lemma in irreg_verbs:    return 0 # irregular
 
-        if lemma[-2:] == 'eo': return 2
+        if lemma[-2:] == 'eo':      return 2
 
         if lemma[-2:] == 'io':
-            if inf[-3:] == 'ere': return 3
-            if inf[-3:] == 'ire': return 4
+            if inf[-3:] == 'ere':   return 3
+            if inf[-3:] == 'ire':   return 4
             
             sys.stderr.write("ERROR: S/b 4th or 3rd-io conj, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
 
         if lemma[-1] == 'o':
-            if inf[-3:] == 'are': return 1
-            if inf[-3:] == 'ere': return 3
+            if inf[-3:] == 'are':   return 1
+            if inf[-3:] == 'ere':   return 3
             
             sys.stderr.write("ERROR: S/b 1st or 3rd-io conjugation, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
@@ -512,18 +482,18 @@ class Verb(Word):
         self.inf = self.find_infinitive()
         inf = self.inf
         
-        if lemma[-3:] == 'eor': return 2
+        if lemma[-3:] == 'eor':     return 2
         
         if lemma[-3:] == 'ior':
-            if inf[-3:] == 'iri': return 4
-            if inf[-1] == 'i': return 3
+            if inf[-3:] == 'iri':   return 4
+            if inf[-1] == 'i':      return 3
             
             sys.stderr.write("ERROR: S/b 4th or 3rd-io conjugation deponent, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
 
         if lemma[-2:] == 'or':
-            if inf[-3:] == 'ari': return 1
-            if inf[-1] == 'i': return 3
+            if inf[-3:] == 'ari':   return 1
+            if inf[-1] == 'i':      return 3
             
             sys.stderr.write("ERROR: S/b 1st or 3rd conjugation deponent, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
@@ -600,12 +570,6 @@ class Verb(Word):
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
             return default_macronized
 
-
-        if len(candidates) == 1:
-            #print "returning:", candidates[0]
-            return candidates[0]
-        
-        #print "too many candidates; returning first:", candidates[0]
         return candidates[0]
 
 class VerbFin(Verb):
@@ -719,7 +683,6 @@ def test_nouns():
     tigris = Noun("tigridis", "tigris", "Case=Gen|Degree=Pos|Gender=Masc|Number=Sing")
     turris = Noun("turres", "turris", "Case=Acc|Degree=Pos|Gender=Fem|Number=Plur")
     aer = Noun("aeres", "aer", "Case=Acc|Degree=Pos|Gender=Masc|Number=Plur")
-    #Dido = Noun("Dido", "Dido", "Case=Nom|Degree=Pos|Gender=Fem|Number=Sing") #PROPER NOUN
 
     spiritus = Noun("spiritus", "spiritus", "Case=Gen|Degree=Pos|Gender=Masc|Number=Sing")
     cornu = Noun("cornus", "cornu", "Case=Gen|Degree=Pos|Gender=Neut|Number=Sing")
@@ -741,8 +704,6 @@ def test_adjectives():
     beatus = Adj("beatis", "beatus", "Case=Abl|Degree=Pos|Number=Plur")
     beatus2 = Adj("beatas", "beatus", "Case=Acc|Degree=Pos|Gender=Fem|Number=Plur")
     mirabilis = Adj("mirabilia", "mirabilis", "Case=Nom|Degree=Pos|Gender=Neut|Number=Plur")
-
-    # MAKE MORE TEST CASES
 
     adjs = [bonus_pos, bonus_cmp, bonus_sup, activus, beatus, beatus2, mirabilis]
     print_tests(adjs, True)

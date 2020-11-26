@@ -55,6 +55,11 @@ def main():
     processed = process_text(txt, pipeline, error)
 
     rawparse = processed.split('\n')[2:-2]
+    
+    with open("../output/rawparse.txt", "w") as f:
+        f.write("RAWPARSE:\n")
+        for line in rawparse: f.write(line + '\n')
+
     for line in rawparse: 
         if line.startswith("# sent_id =") or line.startswith("# newpar"): continue
 

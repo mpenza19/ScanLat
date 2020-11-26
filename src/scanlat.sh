@@ -26,7 +26,7 @@ Naturalized text:       ' ../output/naturalized_$1
 else
     echo 'Input already macronized with natural vowel quantities.'
     echo 'Getting positional vowel quantities...'
-    python3 positional.py <../input/$1 >../output/scanned_$1 2>../output/log_$1
+    python positional.py <../input/$1 >../output/scanned_$1 2>../output/log_$1
     echo '
 Done scanning.
 '

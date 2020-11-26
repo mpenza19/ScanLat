@@ -297,7 +297,7 @@ def analyze(data):
                 onset_whitespace = len(prev_syl.onset)
                 nucleus_length = len(prev_syl.nucleus)
                 coda_whitespace = len(prev_syl.coda) # if len(prev_syl.nucleus) == 1 else len(prev_syl.coda) + 1
-                markup_addition = "—"*nucleus_length if prev_syl.long else "U" if prev_syl.is_syl else ""
+                markup_addition = "—"*nucleus_length if prev_syl.long and len(prev_syl.nucleus) > 1 else "–" if prev_syl.long else "U" if prev_syl.is_syl else ""
                 markup_addition = " "*onset_whitespace + markup_addition + " "*(coda_whitespace)
                 markup += markup_addition
 
@@ -306,7 +306,7 @@ def analyze(data):
                 if prev_syl.syl in punctuation:
                     markup += ' '
 
-                if len(syllables) == 1:
+                if len(syllables) == 1 and syllables[0].syl not in punctuation:
                     output += ' '
                     markup += ' '
 

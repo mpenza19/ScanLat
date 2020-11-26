@@ -35,4 +35,4 @@ fi
 echo 'Scanned text:           ' ../output/scanned_$1 '
 Progress/error log:     ' ../output/log_$1
 
-rm *.pyc
+rm -r __pycache__

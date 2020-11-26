@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-import sys, re
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import re
 
 basic_replacements = {
     '0': '',

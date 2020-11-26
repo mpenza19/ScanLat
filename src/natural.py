@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 """ Did you ever read the documentation of os.popen() the Hackish?
 I thought not. It's not a technique COS 333 would teach you.
@@ -11,7 +8,7 @@ from os import popen
 noun_declensions = (0, 1, 2, 3, 4, 5)
 adj_declensions = (1, 3)
 verb_conjugations = (0, 1, 2, 3, 4)
-long_vowels = 'āēīōūȳ'.decode('utf-8')
+long_vowels = 'āēīōūȳ'
 vowels = 'aeiouy'
 
 irreg_nouns = ('domus', 'locus', 'deus', 'balneus', 'bos', 'cherub', 'Iesus', 'Jesus')
@@ -33,7 +30,7 @@ class Word:
     def macronize_default(self, flipped=False):
         lines = list()
         with popen("echo '%s' | fst-mor LatMor/latmor.a" % self.form) as f:
-            for line in f: lines.append(line.strip().decode('utf-8'))
+            for line in f: lines.append(line.strip())
 
         latmors = lines[2:]
         default_latmor = latmors[0]
@@ -45,7 +42,7 @@ class Word:
             with popen("echo '%s' | fst-mor LatMor/latmor-gen.a" % default_latmor) as f:
                 for line in f:
                     sys.stderr.write("GETTING: %s %s\n" % (line.strip(), lm))
-                    macronizations.append(line.strip().decode('utf-8'))
+                    macronizations.append(line.strip())
 
             for m in macronizations[2:]:
                 if self.demacronize(m) == self.form and (m, lm) not in macronization_latmor_pairs:
@@ -78,7 +75,7 @@ class Word:
     def all_macronizations(self, string):
         lines = []
         with popen("echo '%s' | fst-mor LatMor/latmor-macronizer.a" % string) as f:
-            for line in f: lines.append(line.strip().decode('utf-8'))
+            for line in f: lines.append(line.strip())
         return lines[2:]
 
     def get_macronizations(self):
@@ -247,40 +244,40 @@ class Noun(Word):
                 if case in ["Nom", "Voc"]: return "domus"
 
                 if case == "Gen":
-                    if form == "domus": return "domūs".decode('utf-8')
-                    if form == "domi": return "domī".decode('utf-8')
+                    if form == "domus": return "domūs"
+                    if form == "domi": return "domī"
                     sys.stderr.write("Invalid gen. sg. form '%s' of lemma '%s'.\n" % (form, lemma))
                     return "ERROR"
 
                 if case == "Dat":
-                    if form == "domui": return "domuī".decode('utf-8')
-                    if form == "domo": return "domō".decode('utf-8')
-                    if form == "domu": return "domū".decode('utf-8')
+                    if form == "domui": return "domuī"
+                    if form == "domo": return "domō"
+                    if form == "domu": return "domū"
                     sys.stderr.write("Invalid dat. sg. form '%s' of lemma '%s'.\n" % (form, lemma))
                     return "ERROR"
 
                 if case == "Acc": return "domum"
 
                 if case == "Abl":
-                    if form == "domo": return "domō".decode('utf-8')
-                    if form == "domu": return "domū".decode('utf-8')
+                    if form == "domo": return "domō"
+                    if form == "domu": return "domū"
                     sys.stderr.write("Invalid abl. sg. form '%s' of lemma '%s'.\n" % (form, lemma))
                     return "ERROR"
 
             else:
-                if case in ["Nom", "Voc"]: return "domūs".decode('utf-8')
+                if case in ["Nom", "Voc"]: return "domūs"
 
                 if case == "Gen":
                     if form == "domuum": return "domuum"
-                    if form == "domorum": return "domōrum".decode('utf-8')
+                    if form == "domorum": return "domōrum"
                     sys.stderr.write("Invalid gen. pl. form '%s' of lemma '%s'.\n" % (form, lemma))
                     return "ERROR"
 
                 if case in ["Dat", "Abl"]: return "domibus"
 
                 if case == "Acc":
-                    if form == "domus": return "domūs".decode('utf-8')
-                    if form == "domos": return "domōs".decode('utf-8')
+                    if form == "domus": return "domūs"
+                    if form == "domos": return "domōs"
                     sys.stderr.write("Invalid acc. pl. form '%s' of lemma '%s'.\n" % (form, lemma))
                     return "ERROR"
 
@@ -317,7 +314,7 @@ class Noun(Word):
 
                 if case == "Acc": retval = "deōs"
 
-            retval = retval.decode('utf-8')
+            retval = retval
             if form[0] == 'd': return retval
             if form[0] == 'D': return 'D' + retval[1:]
 
@@ -326,9 +323,9 @@ class Noun(Word):
             return self.macronize_second()
 
         if lemma == "bos":
-            if form == "bos": return "bōs".decode('utf-8')
-            if form == "bobus": return "bōbus".decode('utf-8')
-            if form == "bubus": return "būbus".decode('utf-8')
+            if form == "bos": return "bōs"
+            if form == "bobus": return "bōbus"
+            if form == "bubus": return "būbus"
             return self.macronize_third()
 
         if lemma == "cherub": return form
@@ -664,7 +661,7 @@ def print_tests(tests, include_feats):
     print("----------------------------------------------------------------------------------------------------------------------------------------------------------")
 
     for t in tests:
-        macronized = t.macronized.decode('utf-8') if t.macronized is not None else None
+        macronized = t.macronized if t.macronized is not None else None
         sys.stdout.write("%-15s%-15s%-15s%-9s%-9s%-40s" % (t.form, macronized, t.lemma, t.__class__.__name__, t.inflection, t.latmor))
         if include_feats: sys.stdout.write("%-s" % t.feats)
         sys.stdout.write('\n')

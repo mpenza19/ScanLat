@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
 import sys, re, clean
-reload(sys)
-sys.setdefaultencoding('utf-8')
 from collections import OrderedDict
 
 ##############################################################################
@@ -30,7 +27,7 @@ punctuation = '.,?!/()|\\[]–;—:-`\'\"'          # Punctuation marks
 def tokenize(data):
     """ Cleans and tokenizes whole-document input """
 
-    wholelines = data.decode('utf-8').splitlines()
+    wholelines = data.splitlines()
     tokenized_lines = []
     for wholeline in wholelines:
         tokens = re.findall(r"[\w']+|[.,!?();:]", wholeline, flags=re.UNICODE)
@@ -125,7 +122,7 @@ class Syllable:
     """
 
     def __init__(self, syl):
-        self.syl = syl.decode('utf-8')                          # Plaintext whole syllable
+        self.syl = syl                          # Plaintext whole syllable
         self.is_syl = True                                      # Assume not empty or punct. unless parse() finds otherwise
 
         self.iserror = False

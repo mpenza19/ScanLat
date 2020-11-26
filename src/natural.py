@@ -29,12 +29,12 @@ class Word:
 
     def find_inflection(self): return None
     def macronize(self): return None
-    
+
     def macronize_default(self, flipped=False):
         lines = list()
         with popen("echo '%s' | fst-mor LatMor/latmor.a" % self.form) as f:
-            for line in f: lines.append(line.strip().decode('utf-8')) 
-        
+            for line in f: lines.append(line.strip().decode('utf-8'))
+
         latmors = lines[2:]
         default_latmor = latmors[0]
         default_macronized = "ERROR_"+self.form
@@ -46,7 +46,7 @@ class Word:
                 for line in f:
                     sys.stderr.write("GETTING: %s %s\n" % (line.strip(), lm))
                     macronizations.append(line.strip().decode('utf-8'))
-            
+
             for m in macronizations[2:]:
                 if self.demacronize(m) == self.form and (m, lm) not in macronization_latmor_pairs:
                     macronization_latmor_pairs.append((m, lm))
@@ -63,7 +63,7 @@ class Word:
             if not self.initcap:
                 copy_form = self.form[0].upper() + self.form[1:]
                 copy_lemma = self.lemma[0].upper() + self.lemma[1:]
-                
+
             else:
                 copy_form = self.form[0].lower() + self.form[1:]
                 copy_lemma = self.lemma[0].lower() + self.lemma[1:]
@@ -74,11 +74,11 @@ class Word:
                 return copy_default_macronized, copy_default_latmor
 
         return default_macronized, default_latmor
-    
+
     def all_macronizations(self, string):
         lines = []
         with popen("echo '%s' | fst-mor LatMor/latmor-macronizer.a" % string) as f:
-            for line in f: lines.append(line.strip().decode('utf-8')) 
+            for line in f: lines.append(line.strip().decode('utf-8'))
         return lines[2:]
 
     def get_macronizations(self):
@@ -103,10 +103,10 @@ class Noun(Word):
         self.case = self.feats["Case"].lower() if "Case" in self.feats else None
         self.number = None if "Number" not in self.feats else "sg" if self.feats["Number"] == "Sing" else "pl" if self.feats["Number"] == "Plur" else None
         self.latmor = "%s<N><%s><%s><%s>" % (self.lemma, self.gender, self.number, self.case)
-        #print '\n', self.form, '-->', self.latmor
+        #print('\n', self.form, '-->', self.latmor)
 
         self.macronized = self.macronize()
-        
+
         demac = self.demacronize(self.macronized)
         if self.form != demac:
             sys.stderr.write("\nMACRONIZATION ERROR: form '%s', macronization '%s', demacronization '%s'\n\n" % (self.form, self.macronized, demac))
@@ -120,11 +120,11 @@ class Noun(Word):
         self.feats["Gender"] = newgender
         self.gender = newgender.lower()
         self.latmor = "%s<N><%s><%s><%s>" % (self.lemma, self.gender, self.number, self.case)
-        #print 'RESET:', old_latmor, '-->', self.latmor
+        #print('RESET:', old_latmor, '-->', self.latmor)
 
     def find_inflection(self):
         lemma, feats = self.lemma, self.feats
-        
+
         if lemma in irreg_nouns:                                            return 0 # irregular
         if lemma in ['dies', 'meridies']:                                   return 5
         if lemma == 'aer':                                                  return 3
@@ -147,9 +147,9 @@ class Noun(Word):
             if lemma[-2:] == 'us' and gender in ("Masc", "Fem"):            return 4
             if lemma[-1] == 'u' and gender == "Neut":                       return 4
             if lemma[-1] == 'o' and gender == "Fem":                        return 4
-            
+
             if lemma[-2:] == 'es' and gender == "Fem":                      return 5
-        
+
         return 3
 
     def macronize_first(self):
@@ -177,19 +177,19 @@ class Noun(Word):
     def macronize_second(self):
         form, lemma, feats, declension = self.form, self.lemma, self.feats, self.inflection
         candidates = self.get_macronizations()
-        
+
         if len(candidates) == 0:
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
             return default_macronized
 
-        # Handle Greek variants: nominative singular m/f and neuter; accusative singular m/f/n; vocative neuter 
+        # Handle Greek variants: nominative singular m/f and neuter; accusative singular m/f/n; vocative neuter
         if len(candidates) > 1:
             if self.number == "sg" and self.case in ["nom", "acc", "voc"] and form[-2:] in ['os', 'us', 'on', 'um']:
                 lastcc = form[-2:]
                 for cand in candidates:
                     if cand[-2:] == lastcc: return cand
-            
+
             sys.stderr.write("PROBLEM: 2nd decl. noun '%s' has multiple macronizations but no suitable match:\t" % form)
             for cand in candidates: sys.stderr.write("%s\t" % cand)
             sys.stderr.write('\n')
@@ -200,7 +200,7 @@ class Noun(Word):
     def macronize_third(self):
         form, lemma, feats, declension = self.form, self.lemma, self.feats, self.inflection
         candidates = self.get_macronizations()
-        
+
         if len(candidates) == 0:
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
@@ -216,7 +216,7 @@ class Noun(Word):
     def macronize_fourth_fifth(self):
         form, lemma, feats, declension = self.form, self.lemma, self.feats, self.inflection
         candidates = self.get_macronizations()
-        
+
         if len(candidates) == 0:
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
@@ -228,7 +228,7 @@ class Noun(Word):
             for c in candidates: sys.stderr.write("%s " % c)
             sys.stderr.write('\n')
             return "ERROR"
-            
+
         return candidates[0]
 
     def macronize_irreg(self):
@@ -270,7 +270,7 @@ class Noun(Word):
             else:
                 if case in ["Nom", "Voc"]: return "domūs".decode('utf-8')
 
-                if case == "Gen": 
+                if case == "Gen":
                     if form == "domuum": return "domuum"
                     if form == "domorum": return "domōrum".decode('utf-8')
                     sys.stderr.write("Invalid gen. pl. form '%s' of lemma '%s'.\n" % (form, lemma))
@@ -295,7 +295,7 @@ class Noun(Word):
 
             if number == "Sing":
                 if case != "Voc": retval = self.macronize_second()
-                
+
                 else:
                     if lform == "deus": retval = "deus"
                     if lform == "dee": retval = "dee"
@@ -305,7 +305,7 @@ class Noun(Word):
                     if lform == "di": retval = "dī"
                     if lform == "dii": retval = "diī"
                     if lform == "dei": retval = "deī"
-                
+
                 if case == "Gen":
                     if lform == "deorum": retval = "deōrum"
                     if lform == "deum": retval = "deum"
@@ -314,7 +314,7 @@ class Noun(Word):
                     if lform == "dis": retval = "dīs"
                     if lform == "diis": retval = "diīs"
                     if lform == "deis": retval = "deīs"
-                
+
                 if case == "Acc": retval = "deōs"
 
             retval = retval.decode('utf-8')
@@ -330,7 +330,7 @@ class Noun(Word):
             if form == "bobus": return "bōbus".decode('utf-8')
             if form == "bubus": return "būbus".decode('utf-8')
             return self.macronize_third()
-        
+
         if lemma == "cherub": return form
 
         if lemma in ["Iesus", "Jesus"]:
@@ -359,7 +359,7 @@ class Noun(Word):
 class Adj(Word):
     def __init__(self, form, lemma, feats_str):
         Word.__init__(self, form, lemma, feats_str)
-    
+
         self.gender = self.feats["Gender"].lower() if "Gender" in self.feats else None
         self.gender = self.gender[:self.gender.index(',')] if self.gender is not None and ',' in self.gender else self.gender
         self.case = self.feats["Case"].lower()
@@ -374,7 +374,7 @@ class Adj(Word):
         lemma, feats = self.lemma, self.feats
 
         if lemma in ('bonus', 'magnus', 'malus', 'parvus', 'multus') or self.degree is None: return 0 # irregular
-        if feats["Degree"] == "Pos":  
+        if feats["Degree"] == "Pos":
             if lemma[-2:] == 'us':      return 1
             else:                       return 3
         if feats["Degree"] == "Cmp":    return 3
@@ -382,7 +382,7 @@ class Adj(Word):
 
     def macronize(self):
         candidates = self.get_macronizations()
-        
+
         if len(candidates) == 0:
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
@@ -413,7 +413,7 @@ class Adv(Word):
 
     def macronize(self):
         candidates = self.get_macronizations()
-        
+
         if len(candidates) == 0:
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
@@ -428,10 +428,10 @@ class Verb(Word):
         self.inflection = self.find_inflection()
         self.tense = self.get_tense()
         self.voice = self.get_voice()
-        
+
     def find_infinitive(self):
         form, lemma, feats, deponent = self.form, self.lemma, self.feats, self.deponent
-        
+
         if self.form.startswith("repuli"):
             self.form = "repp" + self.form[3:]
             self.lemma = "repello"
@@ -467,34 +467,34 @@ class Verb(Word):
         if lemma[-2:] == 'io':
             if inf[-3:] == 'ere':   return 3
             if inf[-3:] == 'ire':   return 4
-            
+
             sys.stderr.write("ERROR: S/b 4th or 3rd-io conj, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
 
         if lemma[-1] == 'o':
             if inf[-3:] == 'are':   return 1
             if inf[-3:] == 'ere':   return 3
-            
+
             sys.stderr.write("ERROR: S/b 1st or 3rd-io conjugation, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
 
         self.deponent = True
         self.inf = self.find_infinitive()
         inf = self.inf
-        
+
         if lemma[-3:] == 'eor':     return 2
-        
+
         if lemma[-3:] == 'ior':
             if inf[-3:] == 'iri':   return 4
             if inf[-1] == 'i':      return 3
-            
+
             sys.stderr.write("ERROR: S/b 4th or 3rd-io conjugation deponent, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
 
         if lemma[-2:] == 'or':
             if inf[-3:] == 'ari':   return 1
             if inf[-1] == 'i':      return 3
-            
+
             sys.stderr.write("ERROR: S/b 1st or 3rd conjugation deponent, but reads as neither\tform: %s\tlemma: %s\tinf: %s\n" % (form, lemma, inf))
             return -1
 
@@ -512,7 +512,7 @@ class Verb(Word):
 
         if "Aspect" in f and f["Aspect"] == "Imp":
             if tense == "Past": return "imperf"     # imperfect
-        
+
         if "Aspect" not in f:
             if tense == "Pres": return "pres"       # present
             if tense == "Pqp":  return "pqperf"     # pluperfect
@@ -522,12 +522,12 @@ class Verb(Word):
 
     def get_voice(self):
         if self.deponent: return "deponens"
-        
+
         voice = self.feats["Voice"] if "Voice" in self.feats else "ERROR"
         if voice == "ERROR":
             sys.stderr.write("Unable to find voice of '%s'\n" % self.form)
             return "ERROR"
-        
+
         if voice == "Act":  return "active"
         if voice == "Pass": return "passive"
 
@@ -546,7 +546,7 @@ class Verb(Word):
             sys.stderr.write("ERROR: Does not have valid conjugation\tform: %s\tlemma: %s\tconjugation: %s\n. Returning default macronization '%s' for LatMor form '%s'.\n" % (form, lemma, conjugation, default_macronized, default_latmor))
             return default_macronized
 
-        
+
         if len(candidates) == 0:
             if not isinstance(self, VerbFin):
                 default_macronized, default_latmor = self.macronize_default()
@@ -593,7 +593,7 @@ class VerbFin(Verb):
         if mood == "Ind": return "ind"
         if mood == "Sub": return "subj"
         if mood == "Imp": return "imp"
-        
+
         return "INVALID_MOOD"
 
     def get_number(self):
@@ -601,7 +601,7 @@ class VerbFin(Verb):
         if number == "ERROR":
             sys.stderr.write("Unable to find number of '%s'\n" % self.form)
             return "ERROR"
-        
+
         if number == "Sing": return "sg"
         if number == "Plur": return "pl"
 
@@ -614,7 +614,7 @@ class VerbFin(Verb):
             return 0
 
         if person in (1, 2, 3): return person
-        
+
         return 0
 
     def get_latmor(self):
@@ -648,7 +648,7 @@ class Indecl(Word):
 
     def macronize(self):
         candidates = self.get_macronizations()
-        
+
         if len(candidates) == 0:
             default_macronized, default_latmor = self.macronize_default()
             sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'. Returning default macronization '%s' for LatMor form '%s'.\n" % (self.form, self.lemma, self.inflection, self.latmor, default_macronized, default_latmor))
@@ -656,19 +656,19 @@ class Indecl(Word):
 
         sys.stderr.write("This word '%s' is a Word of type Indecl. Using default macronization '%s' for LatMor form '%s'.\n" % (self.form, candidates[0], self.latmor))
         return candidates[0]
-        
-        
+
+
 
 def print_tests(tests, include_feats):
-    print "\n\n%-15s%-15s%-15s%-9s%-9s%-40s%-s" % ("Plain Form", "Macronized", "Lemma", "POS", "Infl.", "LatMor Form", "UDPipe Features")
-    print "----------------------------------------------------------------------------------------------------------------------------------------------------------"
-    
+    print("\n\n%-15s%-15s%-15s%-9s%-9s%-40s%-s" % ("Plain Form", "Macronized", "Lemma", "POS", "Infl.", "LatMor Form", "UDPipe Features"))
+    print("----------------------------------------------------------------------------------------------------------------------------------------------------------")
+
     for t in tests:
         macronized = t.macronized.decode('utf-8') if t.macronized is not None else None
         sys.stdout.write("%-15s%-15s%-15s%-9s%-9s%-40s" % (t.form, macronized, t.lemma, t.__class__.__name__, t.inflection, t.latmor))
         if include_feats: sys.stdout.write("%-s" % t.feats)
         sys.stdout.write('\n')
-        
+
 def test_nouns():
     puella = Noun("puellis", "puella", "Case=Dat|Degree=Pos|Gender=Fem|Number=Plur")
     xiphias = Noun("xiphian", "xiphias", "Case=Acc|Degree=Pos|Gender=Masc|Number=Sing")
@@ -686,13 +686,13 @@ def test_nouns():
 
     spiritus = Noun("spiritus", "spiritus", "Case=Gen|Degree=Pos|Gender=Masc|Number=Sing")
     cornu = Noun("cornus", "cornu", "Case=Gen|Degree=Pos|Gender=Neut|Number=Sing")
-    
+
     dies = Noun("diebus", "dies", "Case=Dat|Degree=Pos|Gender=Masc|Number=Plur")
     fides = Noun("fides", "fides", "Case=Voc|Degree=Pos|Gender=Fem|Number=Plur")
 
     domus = Noun("domus", "domus", "Case=Nom|Degree=Pos|Gender=Fem|Number=Sing")
-    
-    
+
+
     nouns = [puella, xiphias, servus, filius, ager, locus, deus, corpus, tigris, turris, aer, spiritus, cornu, dies, fides, domus]
     print_tests(nouns, True)
 

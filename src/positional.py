@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
 import sys, re, clean
-reload(sys)
-sys.setdefaultencoding('utf-8')
 from collections import OrderedDict
 
 ##############################################################################
@@ -30,7 +27,7 @@ punctuation = '.,?!/()|\\[]–;—:-`\'\"'          # Punctuation marks
 def tokenize(data):
     """ Cleans and tokenizes whole-document input """
 
-    wholelines = data.decode('utf-8').splitlines()
+    wholelines = data.splitlines()
     tokenized_lines = []
     for wholeline in wholelines:
         tokens = re.findall(r"[\w']+|[.,!?();:]", wholeline, flags=re.UNICODE)
@@ -42,7 +39,7 @@ def tokenize(data):
 class Word:
     """ Representation of a word as plaintext and a list of syllables """
     def __init__(self, word=None, syllables=None):
-        
+
         if word is not None:
             self.word = word                                      # Plaintext whole word
             self.syllables = self.syllabify(word)                 # List of constituent Syllables
@@ -61,7 +58,7 @@ class Word:
 
         # Special case: rare diphthong 'ui'
         if wordc in ('huic', 'hui', 'cui'): return [Syllable(word)]
-        
+
         # Special case: rare long first syllable of words with consonantal 'i' between vowels
         if wordc in ('huius', 'cuius', 'maior', 'peior'): return [Syllable(word[0:3]), Syllable(word[3:])]
 
@@ -95,8 +92,8 @@ class Word:
                     ("VCCCV"         , (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in all_lower_vowels and wordc[i+3:i+5] != qu,                                3, 4)),
                     ("VCCQUV"        , (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3:i+5] == qu and wordc[i+5] in all_lower_vowels,                                                             3, 5)),
                     ("VCCCCV"        , (wordc[i+1] in consonants and wordc[i+2] in consonants and wordc[i+3] in consonants and wordc[i+4] in consonants and word[i+5] in all_lower_vowels and wordc[i+4:i+6] != qu,    4, 5))
-                ]) 
-                    
+                ])
+
                 for key in rules.keys():
                     is_this_rule, seps_incr, i_incr = rules[key]
                     if is_this_rule:
@@ -125,13 +122,13 @@ class Syllable:
     """
 
     def __init__(self, syl):
-        self.syl = syl.decode('utf-8')                          # Plaintext whole syllable
+        self.syl = syl                          # Plaintext whole syllable
         self.is_syl = True                                      # Assume not empty or punct. unless parse() finds otherwise
-        
+
         self.iserror = False
         self.brevisinlongo = False
         self.next = None                                        # The next syllable ***in the LINE***
-        
+
         self.onset, self.nucleus, self.coda = self.parse()      # Plaintext syllable components
         self.long = None                                        # Syllable quantity (length); True==long, False==short
 
@@ -179,14 +176,14 @@ class Syllable:
         # Determine and return onset, nucleus, and coda
         if has_onset:
             onset = self.syl[0:first_vowel_index]
-            #print "onset:", onset
+            #print("onset:", onset)
 
         nucleus = self.syl[first_vowel_index:last_vowel_index+1]
-        #print "nucleus:", nucleus
+        #print("nucleus:", nucleus)
 
         if has_coda:
             coda = self.syl[last_vowel_index+1:]
-            #print "coda:", coda
+            #print("coda:", coda)
 
         if len(nucleus) > 2:
             sys.stderr.write("ERROR: TOO MANY CHARACTERS IN NUCLEUS: %s\n" % nucleus)
@@ -202,7 +199,7 @@ class Syllable:
         is_long = is_long or len(self.coda) == 2 or self.coda in double_cons_letters # Ends in double consonant
         is_long = is_long or (self.coda != '' and self.next is not None and self.next.get_onset() != '') # Ends in consonant and next begins in consonant
         is_long = is_long and self.syl not in punctuation and self.is_syl
-        
+
         self.long = is_long
 
     def get_onset(self):    return self.onset
@@ -210,7 +207,7 @@ class Syllable:
     def get_coda(self):     return self.coda
     def get_next(self):     return self.next
     def set_next(self, next): self.next = next
-        
+
     def get_brevisinlongo(self):
         return self.brevisinlongo
 
@@ -246,7 +243,7 @@ def analyze(data):
         for word_index in range(len(line)):
             word = line[word_index]
             syllables = word.get_syllables()
-            
+
             index = 0
             if word_index == 0:
                 prev_syl = syllables[0]
@@ -260,7 +257,7 @@ def analyze(data):
 
             for syl_in_word in range(index-1, len(syllables)-1):
                 syl_in_word += 1
-                
+
                 if syl_in_word == 1:
                     new_word = Word(syllables=new_word_syls)
                     newline.append(new_word)
@@ -276,7 +273,7 @@ def analyze(data):
                 if jump_punct:
                     nextwordsyls = line[word_index+1].get_syllables()
                     jump_punct = nextwordsyls[0].is_syl
-                    
+
                 if this_syl.is_syl:
                     prev_syl.set_next(this_syl)
                     prev_syl.det_pos_quantity()
@@ -291,7 +288,7 @@ def analyze(data):
                 if word_index != 0 and syl_in_word == 1:
                     output += ' '
                     markup += ' '
-                   
+
                 output += str(prev_syl)
 
                 onset_whitespace = len(prev_syl.onset)
@@ -302,7 +299,7 @@ def analyze(data):
                 markup += markup_addition
 
                 prev_syl = this_syl
-                
+
                 if prev_syl.syl in punctuation:
                     markup += ' '
 
@@ -319,7 +316,7 @@ def analyze(data):
         new_word = Word(syllables=new_word_syls)
         newline.append(new_word)
         new_tokenized_data.append(newline)
-        
+
         if l != len(tokenized_data)-1:
             output += str(this_syl) + '\n'
 
@@ -353,7 +350,7 @@ def print_markup(text, markup):
         sys.stdout.write("ERROR: markup & text have different number of lines.\n")
         exit(1)
 
-    for l in range(len(split_text)): 
+    for l in range(len(split_text)):
         line_num = str(l+1) if (l+1) % 5 == 0 else ''
         line = split_text[l].strip()
         markup = split_markup[l]
@@ -363,7 +360,7 @@ def main():
     data = clean.clean_lines(sys.stdin.read())
     tokenized_data, text, markup = analyze(data)
     print_markup(text, markup)
-    #print "\n\n\n"
+    #print("\n\n\n")
     #print_syllabified(tokenized_data)
 
 main()

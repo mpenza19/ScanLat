@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-import sys, re
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import re
 
 basic_replacements = {
     '0': '',
@@ -14,7 +11,7 @@ basic_replacements = {
     '7': '',
     '8': '',
     '9': '',
-    
+
     'ä': 'a',
     'Ä': 'A',
     'á': 'a',
@@ -50,7 +47,7 @@ basic_replacements = {
     'Ÿ': 'Y',
     'ý': 'y',
     'Ý': 'Y',
-    
+
     'j': 'i',
     'J': 'I',
 
@@ -123,31 +120,31 @@ def demacronized_lines(txt):
     return multiple_replace(clean_lines(txt), macron_replacements)
 
 def main():
-    print '#### BEGIN TEXT-CLEANING TESTS ##################################'
-    
+    print('#### BEGIN TEXT-CLEANING TESTS ##################################')
+
     with open("../input/aeneid_naturalized.txt", 'r') as f: txt = f.read()
-    
-    print '#### ORIGINAL TEXT ##############################################'
-    print txt
-    print '#################################################################\n'
 
-    print '#### BASIC TEXT-CLEANING ########################################'
+    print('#### ORIGINAL TEXT ##############################################')
+    print(txt)
+    print('#################################################################\n')
+
+    print('#### BASIC TEXT-CLEANING ########################################')
     cleantxt = clean_text(txt)
-    print cleantxt
-    print '#################################################################\n'
+    print(cleantxt)
+    print('#################################################################\n')
 
-    print '#### LINEBREAK LOCATIONS ########################################'
-    print newline_locs(cleantxt)
-    print '#################################################################\n'
+    print('#### LINEBREAK LOCATIONS ########################################')
+    print(newline_locs(cleantxt))
+    print('#################################################################\n')
 
 
-    print '#### BASIC TEXT-CLEANING WITH LINE-CLEANING #####################'
-    print clean_lines(txt)
-    
-    print '#### TEXT DEMACRONIZATION #######################################'
-    print demacronized_lines(txt)
-    print '#################################################################\n'
+    print('#### BASIC TEXT-CLEANING WITH LINE-CLEANING #####################')
+    print(clean_lines(txt))
 
-    print '#### END TEXT-CLEANING TESTS ####################################'
+    print('#### TEXT DEMACRONIZATION #######################################')
+    print(demacronized_lines(txt))
+    print('#################################################################\n')
+
+    print('#### END TEXT-CLEANING TESTS ####################################')
 
 #main()

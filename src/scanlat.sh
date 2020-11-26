@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Usage:
-# bash scansion.sh input_text_file is_macronized_input
+# bash scanlat.sh input_text_file is_macronized_input
 #
 # where input_text_file is in the subdirectory ../input
 

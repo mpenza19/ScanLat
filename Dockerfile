@@ -15,7 +15,6 @@ RUN curl -O https://www.cis.uni-muenchen.de/~schmid/tools/SFST/data/SFST-1.4.7d.
   && tar -xzf SFST-1.4.7d.tar.gz \
   && cd SFST/src \
   && make \
-  && make install \
   && make install
 
 # alternate SFST download instructions

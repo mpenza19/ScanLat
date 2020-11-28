@@ -3,36 +3,61 @@
 # Usage:
 # bash scanlat.sh input_text_file is_macronized_input
 #
-# where input_text_file is in the subdirectory ../input
+# where input_text_file is in the subdirectory input/
 
-mkdir ../output 2> ../mkdir_error
-rm ../mkdir_error
+# capture workspace path
+WORKSPACE=$(pwd)
 
-echo 'Input text:             ' ../input/$1 '
-'
+# set IO and log file paths
+INPUT_PATH="${WORKSPACE}/input/${INPUT_FILE}"
+RAWPARSE_PATH="${WORKSPACE}/output/${INPUT_FILE%.txt}-rawparse.txt"
+NATURALIZED_PATH="${WORKSPACE}/output/${INPUT_FILE%.txt}-naturalized.txt"
+SCANNED_PATH="${WORKSPACE}/output/${INPUT_FILE%.txt}-scanned.txt"
+LOG_PATH="${WORKSPACE}/output/${INPUT_FILE%.txt}-log.txt"
 
-if [[ $2 == "" ]]; then
+# capture script paths
+PARSE_SCRIPT="${WORKSPACE}/src/parse.py"
+POSITIONAL_SCRIPT="${WORKSPACE}/src/positional.py"
+
+# setup output dir
+mkdir ${WORKSPACE}/output 2> /dev/null
+
+
+echo "Input text:     ${INPUT_PATH}"
+
+if [[ "$IS_MACRONIZED_INPUT" != "true" && "$IS_MACRONIZED_INPUT" != "yes" ]]; then
     echo 'Getting natural vowel quantities...'
-    python parse.py <../input/$1 >../output/naturalized_$1 2>../output/log_$1
+    python ${PARSE_SCRIPT} ${RAWPARSE_PATH} \
+            < ${INPUT_PATH} > ${NATURALIZED_PATH} 2> ${LOG_PATH}
 
     echo 'Getting positional vowel quantities...'
-    python positional.py <../output/naturalized_$1 >../output/scanned_$1 2>>../output/log_$1
+    python ${POSITIONAL_SCRIPT} \
+            < ${NATURALIZED_PATH} > ${SCANNED_PATH} 2>> ${LOG_PATH}
 
-    echo '
-Done scanning.
-
-Naturalized text:       ' ../output/naturalized_$1
+    echo "Done scanning."
+    echo "Naturalized text:     ${NATURALIZED_PATH}"
 
 else
     echo 'Input already macronized with natural vowel quantities.'
     echo 'Getting positional vowel quantities...'
-    python positional.py <../input/$1 >../output/scanned_$1 2>../output/log_$1
-    echo '
-Done scanning.
-'
+    python ${POSITIONAL_SCRIPT} \
+            < ${INPUT_PATH} > ${SCANNED_PATH} 2> ${LOG_PATH}
+
+    echo "Done scanning."
 fi
 
-echo 'Scanned text:           ' ../output/scanned_$1 '
-Progress/error log:     ' ../output/log_$1
+echo "Scanned text:     ${SCANNED_PATH}"
+echo "Progress/error log:     ${LOG_PATH}"
 
-rm -r __pycache__
+
+# Show results
+echo "SCANNED OUTPUT"
+cat ${SCANNED_PATH}
+echo
+
+# Show log
+echo "ERROR LOG"
+cat ${LOG_PATH}
+
+# Cleanup
+rm -r ${WORKSPACE}/src/__pycache__

@@ -1,4 +1,4 @@
-import sys
+import sys, os
 
 """ Did you ever read the documentation of os.popen() the Hackish?
 I thought not. It's not a technique COS 333 would teach you.
@@ -28,21 +28,22 @@ class Word:
     def macronize(self): return None
 
     def macronize_default(self, flipped=False):
-        lines = list()
-        with popen("echo '%s' | fst-mor LatMor/latmor.a" % self.form) as f:
-            for line in f: lines.append(line.strip())
+        with popen("echo '%s' | fst-mor %s/latmor.a" % (self.form, os.getenv("LATMOR_DIR"))) as f:
+            lines = [l.replace('analyze>', '').strip() for l in f]
+            lines = [l for l in lines[2:] if l != '' and l != self.form]
 
-        latmors = lines[2:]
+        latmors = lines
         default_latmor = latmors[0]
         default_macronized = "ERROR_"+self.form
 
         macronization_latmor_pairs = list()
         for lm in latmors:
             macronizations = list()
-            with popen("echo '%s' | fst-mor LatMor/latmor-gen.a" % default_latmor) as f:
+            with popen("echo '%s' | fst-mor %s/latmor-gen.a" % (default_latmor, os.getenv("LATMOR_DIR"))) as f:
                 for line in f:
-                    sys.stderr.write("GETTING: %s %s\n" % (line.strip(), lm))
-                    macronizations.append(line.strip())
+                    line = line.replace('analyze>', '').strip()
+                    sys.stderr.write("GETTING: %s %s\n" % (line, lm))
+                    macronizations.append(line)
 
             for m in macronizations[2:]:
                 if self.demacronize(m) == self.form and (m, lm) not in macronization_latmor_pairs:
@@ -73,16 +74,15 @@ class Word:
         return default_macronized, default_latmor
 
     def all_macronizations(self, string):
-        lines = []
-        with popen("echo '%s' | fst-mor LatMor/latmor-macronizer.a" % string) as f:
-            for line in f: lines.append(line.strip())
+        with popen("echo '%s' | fst-mor %s/latmor-macronizer.a" % (string, os.getenv("LATMOR_DIR"))) as f:
+            lines = [l.replace('analyze>', '').strip() for l in f]
         return lines[2:]
 
     def get_macronizations(self):
-        lines = []
-        with popen("echo '%s' | fst-mor LatMor/latmor-gen.a" % self.latmor) as f:
-            for line in f: lines.append(line.strip())
-        lines = [l for l in lines[2:] if self.demacronize(l) == self.form]
+        with popen("echo '%s' | fst-mor %s/latmor-gen.a" % (self.latmor, os.getenv("LATMOR_DIR"))) as f:
+            lines = [l.replace('analyze>', '').strip() for l in f]
+            lines = [l for l in lines[2:] if l != '' and l != self.latmor and self.demacronize(l) == self.form]
+
         if lines == []: sys.stderr.write("PROBLEM: No macronizations for '%s' (lemma: '%s'; inflection: '%s') as LatMor form '%s'\n" % (self.form, self.lemma, self.inflection, self.latmor))
         return lines
 
@@ -434,18 +434,21 @@ class Verb(Word):
             self.lemma = "repello"
             return "repellere"
 
-        lines = []
-        with popen("echo '%s' | fst-mor LatMor/latmor.a" % lemma) as f:
-            for line in f: lines.append(line)
+        with popen("echo '%s' | fst-mor %s/latmor.a" % (lemma, os.getenv("LATMOR_DIR"))) as f:
+            lines = [l.replace('analyze>', '').strip() for l in f]
+            lines = [l for l in lines[2:] if l != '' and l != self.form]
 
-        if len(lines[2:]) == 1 and lines[2].startswith("no result"):
+        print(lines, file=sys.stderr)
+
+        if len(lines) == 1 and lines[0].startswith("no result"):
             sys.stderr.write("Invalid lemma (cannot find infinitive): %s\n" % lemma)
             return "ERROR"
 
-        lines = [l.strip().replace('>', '').split('<') for l in lines[2:]]
+        lines = [l.replace('>', '').strip().split('<') for l in lines]
         for line in lines:
-            if not deponent and line[1] == 'V':                                          return line[0]
-            if deponent and line[1] == 'V' and len(line) >= 5 and line[4] == 'deponens': return line[0]
+            print(line, file=sys.stderr)
+            if not self.deponent and len(line) >= 4 and line[1] == 'V':                       return line[0]
+            if self.deponent and len(line) >= 5 and line[1] == 'V' and line[4] == 'deponens': return line[0]
 
         sys.stderr.write("form: %s\tlemma: %s\tCould not determine infinitive\n" % (form, lemma))
         return "ERROR"
@@ -456,6 +459,7 @@ class Verb(Word):
         self.deponent = False
         self.inf = self.find_infinitive()
         inf = self.inf
+        print(self.inf, file=sys.stderr)
 
         if lemma in irreg_verbs:    return 0 # irregular
 

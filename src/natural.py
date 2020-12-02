@@ -1,5 +1,7 @@
 import sys, os
 import logging
+logging.basicConfig(level=logging.NOTSET,
+                    format="%(asctime)s :: %(levelname)s :: %(pathname)s:%(funcName)s:%(lineno)d :: %(message)s")
 
 """ Did you ever read the documentation of os.popen() the Hackish?
 I thought not. It's not a technique COS 333 would teach you.

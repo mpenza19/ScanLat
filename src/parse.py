@@ -3,6 +3,8 @@ from ufal.udpipe import Model, Pipeline, ProcessingError
 from natural import Noun, Adj, Adv, Verb, VerbFin, VerbInf, VerbPart, Indecl
 import natural
 import logging
+logging.basicConfig(level=logging.NOTSET,
+                    format="%(asctime)s :: %(levelname)s :: %(pathname)s:%(funcName)s:%(lineno)d :: %(message)s")
 
 def config():
     # In Python2, wrap sys.stdin and sys.stdout to work with unicode.

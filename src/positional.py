@@ -1,6 +1,8 @@
 import sys, re, clean
 from collections import OrderedDict
 import logging
+logging.basicConfig(level=logging.NOTSET,
+                    format="%(asctime)s :: %(levelname)s :: %(pathname)s:%(funcName)s:%(lineno)d :: %(message)s")
 
 ##############################################################################
 #  Categorized letters and digraphs                                          #

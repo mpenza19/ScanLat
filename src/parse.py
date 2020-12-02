@@ -1,4 +1,4 @@
-import sys, clean
+import os, sys, clean
 from ufal.udpipe import Model, Pipeline, ProcessingError
 from natural import Noun, Adj, Adv, Verb, VerbFin, VerbInf, VerbPart, Indecl
 import natural
@@ -16,10 +16,10 @@ def get_pipeline():
     # Load model, handle errors
     global model
     sys.stderr.write('Loading model... ')
-    model_filename = "UDPipe-ud2/latin-proiel.udpipe"
-    model = Model.load(model_filename)
+    model_fp = os.getenv("UD_MODEL_PATH")
+    model = Model.load(model_fp)
     if not model:
-        sys.stderr.write("Cannot load model from file '%s'\n" % model_filename)
+        sys.stderr.write("Cannot load model from file '%s'\n" % model_fp)
         sys.exit(1)
     sys.stderr.write('Done.\n')
 
@@ -42,6 +42,9 @@ def process_text(txt, pipeline, error):
     return processed
 
 def main():
+    # Read command-line args
+    rawparse_filepath = sys.argv[1]
+
     # Read input text
     txt = clean.demacronized_lines(sys.stdin.read())
 
@@ -51,7 +54,7 @@ def main():
 
     rawparse = processed.split('\n')[2:-2]
 
-    with open("../output/rawparse.txt", "w") as f:
+    with open(rawparse_filepath, 'w') as f:
         f.write("RAWPARSE:\n")
         for line in rawparse: f.write(line + '\n')
 

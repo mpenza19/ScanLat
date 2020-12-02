@@ -1,5 +1,6 @@
 import sys, re, clean
 from collections import OrderedDict
+import logging
 
 ##############################################################################
 #  Categorized letters and digraphs                                          #
@@ -48,7 +49,8 @@ class Word:
             for this_syl in syllables: self.word += str(this_syl)
             self.syllables = syllables
         else:
-            sys.stderr.write("Invalid call to Word constructor. Needs a word string or iterable of Syllable objects.\n")
+            logging.critical("Invalid call to Word constructor. Needs a word string or iterable of Syllable objects.\n")
+            sys.exit(1)
 
     # Breaks word into Syllables
     def syllabify(self, word):
@@ -186,7 +188,7 @@ class Syllable:
             #print("coda:", coda)
 
         if len(nucleus) > 2:
-            sys.stderr.write("ERROR: TOO MANY CHARACTERS IN NUCLEUS: %s\n" % nucleus)
+            logging.error("ERROR: TOO MANY CHARACTERS IN NUCLEUS: %s\n" % nucleus)
             return
 
         return onset, nucleus, coda

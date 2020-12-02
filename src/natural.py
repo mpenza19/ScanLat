@@ -438,7 +438,7 @@ class Verb(Word):
             lines = [l.replace('analyze>', '').strip() for l in f]
             lines = [l for l in lines[2:] if l != '' and l != self.form]
 
-        print(lines, file=sys.stderr)
+        # print(lines, file=sys.stderr)
 
         if len(lines) == 1 and lines[0].startswith("no result"):
             sys.stderr.write("Invalid lemma (cannot find infinitive): %s\n" % lemma)
@@ -446,7 +446,7 @@ class Verb(Word):
 
         lines = [l.replace('>', '').strip().split('<') for l in lines]
         for line in lines:
-            print(line, file=sys.stderr)
+            # print(line, file=sys.stderr)
             if not self.deponent and len(line) >= 4 and line[1] == 'V':                       return line[0]
             if self.deponent and len(line) >= 5 and line[1] == 'V' and line[4] == 'deponens': return line[0]
 
@@ -459,7 +459,7 @@ class Verb(Word):
         self.deponent = False
         self.inf = self.find_infinitive()
         inf = self.inf
-        print(self.inf, file=sys.stderr)
+        # print(self.inf, file=sys.stderr)
 
         if lemma in irreg_verbs:    return 0 # irregular
 

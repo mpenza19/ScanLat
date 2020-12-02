@@ -2,6 +2,7 @@ import os, sys, clean
 from ufal.udpipe import Model, Pipeline, ProcessingError
 from natural import Noun, Adj, Adv, Verb, VerbFin, VerbInf, VerbPart, Indecl
 import natural
+import logging
 
 def config():
     # In Python2, wrap sys.stdin and sys.stdout to work with unicode.
@@ -15,13 +16,13 @@ def config():
 def get_pipeline():
     # Load model, handle errors
     global model
-    sys.stderr.write('Loading model... ')
+    logging.info('Loading model... ')
     model_fp = os.getenv("UD_MODEL_PATH")
     model = Model.load(model_fp)
     if not model:
-        sys.stderr.write("Cannot load model from file '%s'\n" % model_fp)
+        logging.critical("Cannot load model from file '%s'\n" % model_fp)
         sys.exit(1)
-    sys.stderr.write('Done.\n')
+    logging.info('Done.\n')
 
     # Create model pipeline
     pipeline = Pipeline(model, "horizontal", Pipeline.DEFAULT, Pipeline.DEFAULT, "conllu")
@@ -34,9 +35,7 @@ def process_text(txt, pipeline, error):
     processed = pipeline.process(txt, error)
 
     if error.occurred():
-        sys.stderr.write("An error occurred when running run_udpipe: ")
-        sys.stderr.write(error.message)
-        sys.stderr.write("\n")
+        logging.critical("An error occurred when running run_udpipe: %s" % error.message)
         sys.exit(1)
 
     return processed
@@ -68,7 +67,7 @@ def main():
         line = line.split('\t')[1:]
         form, lemma, pos, feats_str = line[0], line[1], line[2], line[4]
         form_lower = form.lower()
-        sys.stderr.write("%s\t%s\t%s\t%s\n\n" % (form, lemma, pos, feats_str))
+        logging.debug("Word features from parse: %s\t%s\t%s\t%s\n\n" % (form, lemma, pos, feats_str))
 
         # A few irregular cases
         if form_lower == "amen":
